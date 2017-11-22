@@ -1,4 +1,4 @@
-# La-deshonra-del-ninja
+# Mario Reload
 Juego de plataforma hecho en pygame
 
 Requerimientos:
