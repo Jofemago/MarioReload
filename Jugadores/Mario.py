@@ -17,9 +17,22 @@ class Mario(pygame.sprite.Sprite):
         self.dir = 0
         self.i = 0
 
+        #valor de la gravedad
+        self.g = -7
+        #controla la velocidad de movimiento en X
+        self.vel_x = 0.07
+
+        #Velocidad de actualiza
+        self.sprite = 4
+        self.var_basesprite = self.sprite
+        self.var_sprite = self.var_basesprite
+
         #variables de movimiento
         self.var_x =  0
         self.var_y = 0
+
+        #variable que calcula el salto de el mario significa que en faso
+        self.saltar = False
         #self.vidas = vidas
         self.plataformas =  pygame.sprite.Group()
         self.col = False
@@ -39,28 +52,30 @@ class Mario(pygame.sprite.Sprite):
 
     def movX(self):
 
-        if self.rect.x >= ANCHO -50 and self.var_x >= 0:
+        if self.rect.x >= ANCHO -self.rect.width and self.var_x >= 0:
             self.var_x = 0
 
         if self.rect.x <= 0 and self.var_x <= 0:
             self.var_x = 0
 
 
-        self.rect.x += self.var_x
+        #self.rect.x += self.var_x
 
     def movY(self):
 
 
-        if self.rect.y >= ALTO - 60 and self.var_y >= 0:
+        if self.rect.y >= ALTO - self.rect.height and self.var_y >= 0:
             self.var_y = 0
+            self.saltar = False
 
         if self.rect.y <= 100 and self.var_y <= 0:
             self.var_y = 0
+            #self.saltar = False
 
 
 
 
-        self.rect.y += self.var_y
+        #self.rect.y += self.var_y
 
 
     def gravedad(self):
@@ -74,12 +89,25 @@ class Mario(pygame.sprite.Sprite):
 
         #bordes
         if self.rect.y >= ALTO - self.rect.height  and self.var_y >= 0:
-            self.var_y = 0
+            self.var_y = 1
+            self.saltar = False
             self.rect.y = ALTO - self.rect.height
 
+
+
+
     def salto(self):
-        self.var_y = -10 #haga la variable de salto y mueva elsprite hasta la posicion indicada
-        #este mientras sube ira perdiendo la altura con la gravedad activa
+        if not self.saltar:
+            if self.var_x <= 0:
+                self.var_y = self.g + self.var_x/2 #haga la variable de salto y mueva elsprite hasta la posicion indicada
+                #self.var_x =-1
+            else:
+                self.var_y = self.g - self.var_x/2
+                #self.var_x =1
+            #else:
+            #    self.var_y = -7
+            self.saltar = True
+            #este mientras sube ira perdiendo la altura con la gravedad activa
 
     def gritar(self):
         #self.sonido.play()
@@ -108,6 +136,8 @@ class Mario(pygame.sprite.Sprite):
             for m in ls_bl:
                 if self.var_y > 0:
                     self.rect.bottom = m.rect.top
+                    #como choca no puede estar en sprite de salto, esta montado en una platafoma
+                    self.saltar = False
                     self.col = True
 
 
@@ -119,23 +149,48 @@ class Mario(pygame.sprite.Sprite):
             self.col = False
 
 
+    #SE ENCARGA DEL MOVIMIENTO TANTO COMO DEL SPRITE COMO DE INCREMETAR EL MOVMINETO DEL JUGADOR
     def movSprite(self):
 
-        if self.var_y != 0 or self.var_x != 0:
-            if self.i < 2 :
+        if self.var_sprite <= 0:
+            if self.var_x != 0:
+                if self.i < 2 :
 
-                self.i += 1
+                    self.i += 1
+                else:
+                    self.i = 0
             else:
                 self.i = 0
-        self.image = self.m[self.i][self.dir]
+            self.var_sprite = self.var_basesprite
+        self.var_sprite -= 1
+
+
+        if self.saltar:
+            self.image = self.m[self.i][self.dir+2]
+        else:
+            self.image = self.m[self.i][self.dir]
         #self.rect = self.image.get_rect()
         self.rect.x += self.var_x
 
+    #Se encarga de controlar la velocidad con la que se mueve mario en el X va ir aumentando a medida que este se mueva
+    def aumentoVelocidad(self):
+
+
+        if self.var_x >= -5 and self.var_x <= 5:
+            if self.var_x != 0:
+
+                if self.var_x > 0:
+                    self.var_x += self.vel_x
+                    self.var_basesprite -= self.vel_x/3
+                else:
+                    self.var_x -= self.vel_x
 
     def update(self):
 
         self.movX()
         #self.rect.y += self.var_y
+
+        self.aumentoVelocidad()
 
         self.gravedad()
         #colisiones

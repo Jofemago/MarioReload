@@ -24,7 +24,7 @@ if __name__ =='__main__':
     fin  = False
 
 
-    jg = Mario(recortar(mariopeque,3,18))
+    jg = Mario(recortar(mariopeque,3,5))
     general.add(jg)
     jugadores.add(jg)
 
@@ -42,12 +42,14 @@ if __name__ =='__main__':
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
                     jg.dir = 1
-                    jg.var_x = 5
+                    jg.var_x = 1
+                    jg.var_basesprite = jg.sprite
 
 
                 if event.key == pygame.K_LEFT:
                     jg.dir = 0
-                    jg.var_x = -5
+                    jg.var_x = -1
+                    jg.var_basesprite = jg.sprite
 
                 if event.key == pygame.K_UP:
                     #jg.gritar()
@@ -56,13 +58,22 @@ if __name__ =='__main__':
 
             if event.type == pygame.KEYUP:
 
+                if event.key == pygame.K_RIGHT and jg.var_x > 0:
+
+                    jg.var_x = 0
+
+                if event.key == pygame.K_LEFT and jg.var_x < 0:
+
+                    jg.var_x = 0
+
+
                 #jg.var_y = 0
-                if event.key == pygame.K_RIGHT  :
-                    jg.dir =0
-                    jg.var_x = 0
-                if event.key == pygame.K_LEFT   :
-                    jg.dir = 0
-                    jg.var_x = 0
+                #if event.key == pygame.K_RIGHT  :
+                    #jg.dir =0
+                    #jg.var_x = 0
+                #if event.key == pygame.K_LEFT   :
+                    #jg.dir = 0
+                    #jg.var_x = 0
 
         #ciclo de juego
 
