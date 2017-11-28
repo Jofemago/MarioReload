@@ -12,6 +12,8 @@ ROJO=(255,0,0)
 AZUL=(0,0,255)
 VERDE=(0,255,0)
 
+CENTRO = (ANCHO//2,ALTO//2)
+
 
 def recortar(archivo, an , al):
     fondo = pygame.image.load(archivo).convert_alpha()
