@@ -37,7 +37,7 @@ if (__name__ == '__main__'):
 
 
             if event.type == pygame.KEYUP:
-            	jugador.keyup(event.key)
+            	jugador.keyup()
 
 
         jugadores.update()

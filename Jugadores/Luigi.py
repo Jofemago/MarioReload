@@ -21,6 +21,7 @@ class Luigi(pygame.sprite.Sprite):
         self.dx = 0
         self.dy = 0
         self.contSprite = 0
+        self.jumping = False
 
     def update(self):
         if self.dx != 0 or self.dy != 0:
@@ -74,12 +75,17 @@ class Luigi(pygame.sprite.Sprite):
     def left(self):
         self.dir = 1
         self.dx = -8
+        if self.dy == 0:
+            self.jumping = False
 
     def right(self):
         self.dir = 0
         self.dx = 8
+        if self.dy == 0:
+            self.jumping = False
 
     def jump(self):
+        self.jumping = True
         if self.dir == 0:
             self.dir = 2
         if self.dir == 1:
@@ -88,8 +94,8 @@ class Luigi(pygame.sprite.Sprite):
             self.dy = -20
 
     def keyup(self):
-        self.dx = 0
-        if self.dy < 0:
+        if not self.jumping:
+            self.dx = 0
             self.dy = 0
 
 

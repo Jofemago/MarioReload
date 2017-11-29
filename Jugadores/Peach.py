@@ -18,6 +18,7 @@ class Peach(pygame.sprite.Sprite):
         self.i = 0
         self.dx = 0
         self.dy = 0
+        self.jumping = False
 
     def update(self):
         if self.dx != 0 or self.dy != 0 or self.dir == 2 or self.dir == 3:
@@ -62,26 +63,32 @@ class Peach(pygame.sprite.Sprite):
     def right(self):
         self.dir = 0
         self.dx = 5
+        if self.dy == 0:
+            self.jumping = False
 
     def left(self):
         self.dir = 1
         self.dx = -5
+        if self.dy == 0:
+            self.jumping = False
 
     def jump(self):
         if self.dy == 0:
+            self.jumping = True
             self.dy = -15
 
     def beat(self):
+        self.jumping = False
         if self.dir == 0:
             self.dir = 2
 
         if self.dir == 1:
             self.dir = 3
 
-    def keyup(self,event):
-        if self.dy < 0 and event == pygame.K_UP:
+    def keyup(self):
+        if not self.jumping:
             self.dy = 0
-        if self.dy == 0:
+        #if self.dy == 0:
             self.dx = 0
 
 
