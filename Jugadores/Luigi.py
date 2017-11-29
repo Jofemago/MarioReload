@@ -73,4 +73,21 @@ class Luigi(pygame.sprite.Sprite):
             self.rect.bottom = ALTO
 
 
+    def left(self):
+        self.dir = 1
+        self.dx = -8
+
+    def right(self):
+        self.dir = 0
+        self.dx = 8
+
+    def jump(self):
+        self.dir = 2
+        self.dy = -8
+
+    def keyup(self):
+        self.dx = 0
+        self.dy = 0
+
+
 

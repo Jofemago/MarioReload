@@ -24,22 +24,17 @@ if (__name__ == '__main__'):
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_LEFT:
-                    jugador.dir = 1
-                    jugador.dx = -8
+                    jugador.left()
 
                 if event.key == pygame.K_RIGHT:
-                    jugador.dir = 0
-                    jugador.dx = 8
+                    jugador.right()
 
                 if event.key == pygame.K_UP:
-                    jugador.dir = 2
-                    jugador.dy = -8
+                    jugador.jump()
 
 
             if event.type == pygame.KEYUP:
-
-                jugador.dx = 0
-                jugador.dy = 0
+            	jugador.keyup()
 
 
         jugadores.update()
