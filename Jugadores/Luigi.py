@@ -82,7 +82,10 @@ class Luigi(pygame.sprite.Sprite):
         self.dx = 8
 
     def jump(self):
-        self.dir = 2
+        if self.dir == 0:
+            self.dir = 2
+        if self.dir == 1:
+            self.dir = 3
         self.dy = -20
 
     def keyup(self):
