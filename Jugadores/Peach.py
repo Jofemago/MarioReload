@@ -52,11 +52,36 @@ class Peach(pygame.sprite.Sprite):
 
     def gravity(self):
 
-        if self.dy >= 0:
-            self.dy += 1.5
+        self.dy += 1
 
         if self.rect.bottom >= ALTO:
             self.dy = 0
             self.rect.bottom = ALTO
+
+
+    def right(self):
+        self.dir = 0
+        self.dx = 5
+
+    def left(self):
+        self.dir = 1
+        self.dx = -5
+
+    def jump(self):
+        if self.dy == 0:
+            self.dy = -15
+
+    def beat(self):
+        if self.dir == 0:
+            self.dir = 2
+
+        if self.dir == 1:
+            self.dir = 3
+
+    def keyup(self,event):
+        if self.dy < 0 and event == pygame.K_UP:
+            self.dy = 0
+        if self.dy == 0:
+            self.dx = 0
 
 
