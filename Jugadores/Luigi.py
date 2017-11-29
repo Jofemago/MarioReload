@@ -31,6 +31,7 @@ class Luigi(pygame.sprite.Sprite):
         if self.rect.right <= ANCHO and self.rect.left >= 0:
             self.rect.x += self.dx
 
+
         if self.rect.right >= ANCHO and self.dx < 0:
             self.rect.x += self.dx
 
