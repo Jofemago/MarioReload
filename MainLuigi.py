@@ -25,15 +25,15 @@ if (__name__ == '__main__'):
 
                 if event.key == pygame.K_LEFT:
                     jugador.dir = 1
-                    jugador.dx = -5
+                    jugador.dx = -8
 
                 if event.key == pygame.K_RIGHT:
                     jugador.dir = 0
-                    jugador.dx = 5
+                    jugador.dx = 8
 
                 if event.key == pygame.K_UP:
                     jugador.dir = 2
-                    jugador.dy = -5
+                    jugador.dy = -8
 
 
             if event.type == pygame.KEYUP:

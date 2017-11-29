@@ -20,13 +20,21 @@ class Luigi(pygame.sprite.Sprite):
         self.i = 0
         self.dx = 0
         self.dy = 0
+        self.contSprite = 0
 
     def update(self):
         if self.dx != 0 or self.dy != 0:
-            if self.i < 3:
+            self.contSprite += 1
+
+            if self.contSprite == 3:
+                self.contSprite = 0
+
+            if self.i < 3 and self.contSprite == 0:
                 self.i += 1
-            else:
+            elif self.i == 3:
                 self.i = 0
+
+
         self.image = self.m[self.i][self.dir]
         if self.rect.right <= ANCHO and self.rect.left >= 0:
             self.rect.x += self.dx
@@ -46,6 +54,8 @@ class Luigi(pygame.sprite.Sprite):
 
         if self.rect.bottom >= ALTO and self.dy < 0:
             self.rect.y += self.dy
+
+
 
 
 
