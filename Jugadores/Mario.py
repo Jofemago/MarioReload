@@ -1,4 +1,3 @@
-
 import pygame
 from configuraciones import *
 from Objetos.Fireball import *
@@ -111,7 +110,7 @@ class Mario(pygame.sprite.Sprite):
             if self.var_y == 0:
                 self.var_y = 1
             else:
-                self.var_y += 0.25
+                self.var_y += 1
 
         #bordes
         if self.rect.y >= ALTO - self.rect.height  and self.var_y >= 0:
@@ -125,10 +124,10 @@ class Mario(pygame.sprite.Sprite):
     def salto(self):
         if not self.saltar:
             if self.var_x <= 0:
-                self.var_y = self.g + self.var_x/2 #haga la variable de salto y mueva elsprite hasta la posicion indicada
+                self.var_y = self.g + self.var_x*2 #haga la variable de salto y mueva elsprite hasta la posicion indicada
                 #self.var_x =-1
             else:
-                self.var_y = self.g - self.var_x/2
+                self.var_y = self.g - self.var_x/2*2
                 #self.var_x =1
             #else:
             #    self.var_y = -7
