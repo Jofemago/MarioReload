@@ -1,17 +1,26 @@
 
 import pygame
 from configuraciones import *
+from Objetos.Fireball import *
 
 class Mario(pygame.sprite.Sprite):
 
-    def __init__(self,imgpeque, col = AZUL):
+    def __init__(self,imgpeque,imggrande, imgfuego = None, col = AZUL):
 
         pygame.sprite.Sprite.__init__(self)
-        self.m = imgpeque
+        self.m = imgfuego
+
+
+        self.imgpeque = imgpeque
+        self.imggrande = imggrande
+        self.imgfuego = imgfuego
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
         self.setPos(100,0)
 
+
+        #estado para saber que mario es, peque fuego o grande
+        self.estado = 1
 
         #variables para los movimientos de sprites
         self.dir = 0
@@ -36,6 +45,23 @@ class Mario(pygame.sprite.Sprite):
         #self.vidas = vidas
         self.plataformas =  pygame.sprite.Group()
         self.col = False
+
+
+        #control de disparo
+        self.disparo = False
+        self.tiempodis = 20 # tiempo que debe esperar despues de dispara para seguir disparando
+        self.controldis = self.tiempodis#tiempo que se reducria
+
+
+    def disparar(self):
+
+        if  self.disparo:
+
+            if self.controldis <=0:
+                self.disparo = False
+                self.controldis = self.tiempodis
+            self.controldis -= 1
+
 
     def setPos(self, x,  y):
 
@@ -185,6 +211,38 @@ class Mario(pygame.sprite.Sprite):
                 else:
                     self.var_x -= self.vel_x
 
+
+    #hace crecer a mario
+    def crecer(self):
+
+        if  self.estado < 3:
+            self.estado += 1
+
+    #hacer enchiquetecer a mario
+    def enano(self):
+        self.estado = 1
+
+    #validar que juego de sprites debe tomar mario dependiendo de su estado
+    def validarImagen(self):
+
+        if self.estado == 3:
+            self.m = self.imgfuego
+        elif self.estado == 2:
+            self.m = self.imggrande
+        else:
+            self.m = self.imgpeque
+
+        if self.saltar:
+            self.image = self.m[self.i][self.dir+2]
+        else:
+            self.image = self.m[self.i][self.dir]
+
+        x = self.rect.x
+        y = self.rect.y
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
     def update(self):
 
         self.movX()
@@ -198,3 +256,9 @@ class Mario(pygame.sprite.Sprite):
 
         #movimiento de los sprites
         self.movSprite()
+
+        #validamos siempre de que tamano es mario
+        self.validarImagen()
+
+        # si se ha disparado espera un momento corto para volverlo a hacer
+        self.disparar()

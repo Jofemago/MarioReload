@@ -8,7 +8,7 @@ if (__name__ == '__main__'):
     pantalla = pygame.display.set_mode([ANCHO,ALTO])
     pygame.display.flip()
     bolas = pygame.sprite.Group()
-    cuts = recortar('FireBall.png',4,1)
+    cuts = recortar('boladefuego.png',4,1)
     bola = FireBall(cuts)
     bola.rect.x = 0
     bola.rect.y = ALTO - 200
