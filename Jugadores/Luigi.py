@@ -22,8 +22,11 @@ class Luigi(pygame.sprite.Sprite):
         self.dy = 0
         self.contSprite = 0
         self.jumping = False
+        self.tiempoDisparo = 40 # define que Luigi dispare cada determinado tiempo
+        self.disparo = False #valida que se dispare en el momento
 
     def update(self):
+        self.disparar()
         if self.dx != 0 or self.dy != 0:
             self.contSprite += 1
 
@@ -97,6 +100,19 @@ class Luigi(pygame.sprite.Sprite):
         if not self.jumping:
             self.dx = 0
             self.dy = 0
+
+
+    def disparar(self):
+        self.tiempoDisparo -= 1
+        if not self.disparo:
+            if self.tiempoDisparo == 0:
+                self.disparo = True
+
+        if self.tiempoDisparo == 0:
+            self.tiempoDisparo = 40
+        else:
+            self.disparo = False
+
 
 
 
