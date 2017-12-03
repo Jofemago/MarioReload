@@ -1,7 +1,7 @@
 import pygame
 from configuraciones import *
 from Objetos.Fireball import *
-
+from Jugadores.MapaNivel1 import *
 class Mario(pygame.sprite.Sprite):
 
     def __init__(self,imgpeque,imggrande, imgfuego = None, col = AZUL):
@@ -26,7 +26,7 @@ class Mario(pygame.sprite.Sprite):
         self.i = 0
 
         #valor de la gravedad
-        self.g = -7
+        self.g = -15
         #controla la velocidad de movimiento en X
         self.vel_x = 0.07
 
@@ -42,7 +42,8 @@ class Mario(pygame.sprite.Sprite):
         #variable que calcula el salto de el mario significa que en faso
         self.saltar = False
         #self.vidas = vidas
-        self.plataformas =  pygame.sprite.Group()
+        self.plataformas =  None
+        self.suelos = None
         self.col = False
 
 
@@ -113,10 +114,10 @@ class Mario(pygame.sprite.Sprite):
                 self.var_y += 1
 
         #bordes
-        if self.rect.y >= ALTO - self.rect.height  and self.var_y >= 0:
-            self.var_y = 1
-            self.saltar = False
-            self.rect.y = ALTO - self.rect.height
+        #if self.rect.y >= ALTO - self.rect.height  and self.var_y >= 0:
+        #    self.var_y = 1
+        #    self.saltar = False
+        #    self.rect.y = ALTO - self.rect.height
 
 
 
@@ -124,7 +125,7 @@ class Mario(pygame.sprite.Sprite):
     def salto(self):
         if not self.saltar:
             if self.var_x <= 0:
-                self.var_y = self.g + self.var_x*2 #haga la variable de salto y mueva elsprite hasta la posicion indicada
+                self.var_y = self.g + self.var_x/2*2 #haga la variable de salto y mueva elsprite hasta la posicion indicada
                 #self.var_x =-1
             else:
                 self.var_y = self.g - self.var_x/2*2
@@ -140,7 +141,7 @@ class Mario(pygame.sprite.Sprite):
 
     def validarColision(self):
 
-        ls_bl = pygame.sprite.spritecollide(self,self.plataformas, False)
+        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
         if len(ls_bl) > 0:# si de verdad hay colision
             for m in ls_bl:#otra solucion es que cuando toque por la parte de ariba del objeto la variacion en y sea 0
 
@@ -155,8 +156,8 @@ class Mario(pygame.sprite.Sprite):
         else:
             self.col = False# si no hay colision active de nuevo la gravedad
 
-        self.rect.y += self.var_y
-        ls_bl = pygame.sprite.spritecollide(self,self.plataformas, False)
+        self.rect.y += self.var_y   #para que siempre juegue la gravedad
+        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
         if len(ls_bl) > 0:
             for m in ls_bl:
                 if self.var_y > 0:
@@ -209,13 +210,16 @@ class Mario(pygame.sprite.Sprite):
                     self.var_basesprite -= self.vel_x/3
                 else:
                     self.var_x -= self.vel_x
-
+                    self.var_basesprite -= self.vel_x/3
 
     #hace crecer a mario
     def crecer(self):
 
         if  self.estado < 3:
+            if self.estado == 1:
+                self.rect.y -= 60
             self.estado += 1
+
 
     #hacer enchiquetecer a mario
     def enano(self):

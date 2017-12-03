@@ -3,6 +3,8 @@ en este archivo se almacenaran todas las caracteristicas de la pantalla, como lo
 
 '''
 import pygame
+import json
+
 
 ANCHO=800
 ALTO=600
@@ -33,3 +35,38 @@ def recortar(archivo, an , al):
         m.append(fila)
 
     return m
+
+
+
+
+def ConfiguracionJson(archivo):
+
+    mapa = None
+    with open(archivo) as archivo_json:
+        mapa = json.load(archivo_json)
+
+    #print mapa['layers'][0]
+
+    capa = mapa['layers'][0]
+
+    num_filas = capa['height']
+    num_col = capa['width']
+    linea = capa['data']
+
+    #print  num_col, num_filas
+
+    mapa = []
+    for i in range(num_filas):
+        fila = []
+        for j in range(num_col):
+            fila.append(0)
+        mapa.append(fila)
+
+
+    k = 0
+    for i in range(num_filas):
+        for j in range(num_col):
+            mapa[i][j] = linea[k]
+            k+=1
+
+    return mapa
