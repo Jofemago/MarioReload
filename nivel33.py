@@ -51,18 +51,21 @@ def Nivel1(pantalla):
 
     #GRUPOS DE ELEMENTO QUE HAY EN LA sabanamapas
     suelos = pygame.sprite.Group()
+    fondos =  pygame.sprite.Group()
+
+    mario = Mario(recortar(mariopeque,3,5),recortar(mariogrande,3,5),recortar(mariofuego,3,5))
+    #general.add(mario)
+    jugadores.add(mario)
 
     #SE VA ENCARGAR DE IR DIBUJANDO EL MAPA A MEDIDA QUE VA AVANZADO MARIO
-    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,general )
+    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general )
     controllerMapa.dibujarmapa()
 
     reloj = pygame.time.Clock()
     fin  = False
 
 
-    mario = Mario(recortar(mariopeque,3,5),recortar(mariogrande,3,5),recortar(mariofuego,3,5))
-    general.add(mario)
-    jugadores.add(mario)
+
 
 
     imgsuelo = 'Jugadores/Mapa/imgmapas/prueba.png'
@@ -112,7 +115,7 @@ def Nivel1(pantalla):
                 if event.key == pygame.K_SPACE:
                     #print 'bola de fuego'
                     if mario.estado == 3 and not mario.disparo:
-                        bola = FireBall(recortar(bolafuego,4,1), mario.dir)
+                        bola = FireBall(recortar(bolafuego,4,1),suelos ,mario.dir)
                         bola.rect.x = mario.rect.x
                         bola.rect.y = mario.rect.y + 30
                         general.add(bola)
@@ -158,7 +161,10 @@ def Nivel1(pantalla):
         pantalla.fill(NEGRO)
         #pantalla.blit(fondo,[f_x,0])
         general.update()
+        jugadores.update()
         general.draw(pantalla)
+        jugadores.draw(pantalla)
+        balasmario.draw(pantalla)
         pygame.display.flip()
         reloj.tick(60)
 

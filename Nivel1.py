@@ -51,9 +51,10 @@ def Nivel1(pantalla):
 
     #GRUPOS DE ELEMENTO QUE HAY EN LA sabanamapas
     suelos = pygame.sprite.Group()
+    fondos =  pygame.sprite.Group()
 
     #SE VA ENCARGAR DE IR DIBUJANDO EL MAPA A MEDIDA QUE VA AVANZADO MARIO
-    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,general )
+    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,,fondos,general )
     controllerMapa.dibujarmapa()
 
     reloj = pygame.time.Clock()
