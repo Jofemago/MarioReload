@@ -1,7 +1,10 @@
 import pygame
 from configuraciones import *
 from Objetos.Fireball import *
-from Jugadores.MapaNivel1 import *
+from MapaNivel1 import *
+
+
+
 class Mario(pygame.sprite.Sprite):
 
     def __init__(self,imgpeque,imggrande, imgfuego = None, col = AZUL):

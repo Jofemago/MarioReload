@@ -29,6 +29,11 @@ class MakeMapa:
                     self.suelos.add(m)
                     self.general.add(m)
 
+                #Signo de interrogacion  BONUS
+                if self.mapa[i][j] == 3 :
+                    m = bonus(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
 
 
                 #TERCER NIVEL

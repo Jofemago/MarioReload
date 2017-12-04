@@ -15,6 +15,9 @@ class base(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+    def getTipo(self):
+        return 'nada'
+
     def update(self):
         pass
 
@@ -37,6 +40,8 @@ class lava(pygame.sprite.Sprite):
         self.timesprite = 5
         self.actualizasprite = self.timesprite
 
+    def getTipo(self):
+        return 'lava'
 
     def setPos(self, x,  y):
 
@@ -53,6 +58,50 @@ class lava(pygame.sprite.Sprite):
 
         if self.actualizasprite < 0:
             if self.i < 7 :
+                self.i += 1
+            else:
+                self.i = 0
+            self.actualizasprite = self.timesprite
+        self.actualizasprite -= 1
+
+
+
+    def update(self):
+
+        self.movSprite()
+        self.updateSprite()
+
+
+class bonus(pygame.sprite.Sprite):
+
+    def __init__(self,x , y):
+        pygame.sprite.Sprite.__init__(self)
+        self.m = recortar('Jugadores/Mapa/imgmapas/bonus.png',4,1)
+        self.image = self.m[0][0]
+        self.rect = self.image.get_rect()
+        self.setPos(x,y)
+        self.i = 0
+        self.timesprite = 10
+        self.actualizasprite = self.timesprite
+
+    def getTipo(self):
+        return 'bonus'
+
+    def setPos(self, x,  y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+
+    def updateSprite(self):
+
+        self.image = self.m[self.i][0]
+    
+    def movSprite(self):
+
+
+        if self.actualizasprite < 0:
+            if self.i < 2 :
                 self.i += 1
             else:
                 self.i = 0
