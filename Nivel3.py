@@ -11,6 +11,7 @@ from Jugadores.Luigi import *
 from Jugadores.Mario import *
 from Jugadores.Peach import *
 from Objetos.Fireball import *
+from Jugadores.Mapa.ControllerMapa import *
 
 
 def nivel3(pantalla):
@@ -23,6 +24,9 @@ def nivel3(pantalla):
 	imgbolafuego = 'Objetos/boladefuego.png'
 	imgLuigi = 'Jugadores/imgJugador/luigi.png'
 	imgPeach = 'Jugadores/imgJugador/peach.png'
+	sabanamapas = 'Jugadores/Mapa/imgmapas/sabanamapas.png'
+
+	mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel3.json')
 
 	#se definen las matrices de imágenes para todos los sprites
 	corteMario1 = recortar(imgmariopeque,3,5)
@@ -59,9 +63,21 @@ def nivel3(pantalla):
 	gMario.add(mario)
 	gLuigi.add(luigi)
 	gPeach.add(peach)
-	general.add(mario)
-	general.add(luigi)
+	#general.add(mario)
+	#general.add(luigi)
 	general.add(peach)
+
+	#Grupos de elementos del mapa
+	suelos = pygame.sprite.Group()
+	fondos = pygame.sprite.Group()
+
+	controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general)
+	controllerMapa.dibujarmapa()
+
+	#se añaden los grupos de suelos a los personajes
+	mario.suelos = suelos
+	luigi.suelos = suelos
+
 
 
 
@@ -110,10 +126,11 @@ def nivel3(pantalla):
 			
 
 		if luigi.disparo:
+			bola = FireBall(corteBola,suelos)
 			if luigi.dir == 0:
-				bola = FireBall(corteBola,1)
+				bola.dir = 1
 			if luigi.dir == 1:
-				bola = FireBall(corteBola,0)
+				bola.dir = 0
 			bola.rect.center = luigi.rect.center
 			bolasLuigi.add(bola)
 			general.add(bola)
@@ -137,10 +154,11 @@ def nivel3(pantalla):
 
 				if event.key == pygame.K_SPACE:
 					if mario.estado == 3 and not mario.disparo:
-						bola = FireBall(corteBola,mario.dir)
+						bola = FireBall(corteBola,suelos,mario.dir)
 						bola.rect.center = mario.rect.center
 						general.add(bola)
 						bolasMario.add(bola)
+						mario.disparo = True
 
 
 				if event.key == pygame.K_UP:
@@ -161,7 +179,13 @@ def nivel3(pantalla):
 
 		pantalla.fill(NEGRO)
 		general.update()
+		gMario.update()
+		gLuigi.update()
 		general.draw(pantalla)
+		gMario.draw(pantalla)
+		gLuigi.draw(pantalla)
+		bolasMario.draw(pantalla)
+		bolasLuigi.draw(pantalla)
 		pygame.display.flip()
 		clock.tick(30)
 

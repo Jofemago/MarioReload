@@ -1,9 +1,9 @@
 import pygame
 from configuraciones import *
 from Objetos.Fireball import *
-from MapaNivel1 import *
+#from MapaNivel1 import *
 
-
+from Mapa.MapaNivel1 import *
 
 class Mario(pygame.sprite.Sprite):
 
