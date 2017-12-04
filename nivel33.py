@@ -10,6 +10,7 @@ from Objetos.Fireball import *
 from Jugadores.Mapa.ControllerMapa import *
 
 
+
 from configuraciones import *
 mariopeque = 'Jugadores/imgJugador/pequemario.png'
 mariogrande = 'Jugadores/imgJugador/mariogrande.png'
