@@ -37,7 +37,16 @@ def recortar(archivo, an , al):
     return m
 
 
+def crearArreglo(fila, columnas):
 
+    """Funcion que crea un arreglo"""
+    arreglo = []
+    for i in range(fila):
+        fila = []
+        for j in range(columnas):
+            fila.append(0)
+        arreglo.append(fila)
+    return arreglo
 
 def ConfiguracionJson(archivo):
 
@@ -55,12 +64,8 @@ def ConfiguracionJson(archivo):
 
     #print  num_col, num_filas
 
-    mapa = []
-    for i in range(num_filas):
-        fila = []
-        for j in range(num_col):
-            fila.append(0)
-        mapa.append(fila)
+    mapa = crearArreglo(num_filas, num_col)
+
 
 
     k = 0

@@ -8,6 +8,7 @@ class MakeMapa:
     def __init__(self,mapa, sabana,suelos,general):
 
         self.mapa = mapa
+        print mapa
         self.sabana = sabana
         self.filas = len(self.mapa)
         self.col = len(self.mapa[0])
@@ -27,3 +28,36 @@ class MakeMapa:
                     m.setpos(j*40 , i*40)
                     self.suelos.add(m)
                     self.general.add(m)
+
+
+
+                #TERCER NIVEL
+                if self.mapa[i][j] == 91:
+
+                    m = suelo(self.sabana[0][9])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 93:
+
+                    m = suelo(self.sabana[3][9])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 94:
+
+                    m = suelo(self.sabana[4][9])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 95:
+
+                    m = suelo(self.sabana[5][9])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                

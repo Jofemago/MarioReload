@@ -1,5 +1,5 @@
 
-
+#EN este archivo se crea el elemento 1 de la sabanamapas
 import pygame
 from configuraciones import *
 

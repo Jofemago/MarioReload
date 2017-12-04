@@ -18,7 +18,7 @@ bolafuego = 'Objetos/boladefuego.png'
 mariofuego = 'Jugadores/imgJugador/MarioFuego.png'
 sabanamapas = 'Jugadores/Mapa/imgmapas/sabanamapas.png'
 
-mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel1.json')
+mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel3.json')
 def limiteMovMario(mario, limitemario):
 
     #valida cuando es el momneto de mover el mapa de mario
@@ -149,10 +149,10 @@ def Nivel1(pantalla):
         #ciclo de juego
 
         #proceso para mario recorra el mapa unicamente de izquierda a derecha
-        f_varx = limiteMovMario(mario, limitemario)#calculo de la pos del mario
-        f_x  = moverFondo(f_x, f_varx) #ubicacion en el archivo json
+        #f_varx = limiteMovMario(mario, limitemario)#calculo de la pos del mario
+        #f_x  = moverFondo(f_x, f_varx) #ubicacion en el archivo json
 
-        moverGrupoSprites(suelos, f_varx)#mueve todo lo que sea suelo, sabanamapas[0][0]
+        #moverGrupoSprites(suelos, f_varx)#mueve todo lo que sea suelo, sabanamapas[0][0]
 
 
         pantalla.fill(NEGRO)
