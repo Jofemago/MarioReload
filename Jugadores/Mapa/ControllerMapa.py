@@ -1,6 +1,7 @@
 
 import pygame
 from MapaNivel1 import *
+from configuraciones import *
 
 
 class MakeMapa:
@@ -18,8 +19,6 @@ class MakeMapa:
         print self.filas, self.col
 
     def dibujarmapa(self):
-
-
         for i in range(self.filas):
             for j in range(self.col):
 
@@ -48,6 +47,15 @@ class MakeMapa:
                     m.setpos(j*40 , i*40)
                     self.fondos.add(m)
                     self.general.add(m)
+
+                #pinta lava en el tercermundo
+                if self.mapa[i][j] == 93:
+
+                    m = lava(j*40 , i*40)
+                    #m.setPos(j*40 , i*40)
+                    #self.fondos.add(m)
+                    self.general.add(m)
+
 
                 #Base del tercer mundo
                 if self.mapa[i][j] == 94:

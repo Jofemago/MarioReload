@@ -3,7 +3,7 @@
 import pygame
 from configuraciones import *
 
-class suelo(pygame.sprite.Sprite):
+class base(pygame.sprite.Sprite):
 
     def __init__(self, archivo):
         pygame.sprite.Sprite.__init__(self)
@@ -17,3 +17,51 @@ class suelo(pygame.sprite.Sprite):
 
     def update(self):
         pass
+
+
+class suelo(base):
+
+    def __init__(self, archivo):
+        base.__init__(self,archivo)
+
+
+class lava(pygame.sprite.Sprite):
+
+    def __init__(self,x , y):
+        pygame.sprite.Sprite.__init__(self)
+        self.m = recortar('Jugadores/Mapa/imgmapas/lava.png',9,1)
+        self.image = self.m[0][0]
+        self.rect = self.image.get_rect()
+        self.setPos(x,y)
+        self.i = 0
+        self.timesprite = 5
+        self.actualizasprite = self.timesprite
+
+
+    def setPos(self, x,  y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+
+    def updateSprite(self):
+
+        self.image = self.m[self.i][0]
+
+    def movSprite(self):
+
+
+        if self.actualizasprite < 0:
+            if self.i < 7 :
+                self.i += 1
+            else:
+                self.i = 0
+            self.actualizasprite = self.timesprite
+        self.actualizasprite -= 1
+
+
+
+    def update(self):
+
+        self.movSprite()
+        self.updateSprite()
