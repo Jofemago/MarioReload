@@ -43,7 +43,7 @@ class Mario(pygame.sprite.Sprite):
         self.saltar = False
         #self.vidas = vidas
         self.plataformas =  None
-        self.suelos = None
+        self.suelos = pygame.sprite.Group()
         self.col = False
 
 
