@@ -88,6 +88,9 @@ class Luigi(pygame.sprite.Sprite):
         else:
             self.dy == 0
 
+        if self.colArriba:
+            self.dy = 0
+
 
     def left(self):
         self.dir = 1
@@ -101,14 +104,14 @@ class Luigi(pygame.sprite.Sprite):
         if self.dy == 0:
             self.jumping = False
 
-    def jump(self):
+    def jump(self): 
         self.jumping = True
         if self.dir == 0:
             self.dir = 2
         if self.dir == 1:
             self.dir = 3
         if self.dy == 0:
-            self.dy = -20
+            self.dy = -15
 
     def keyup(self):
         if not self.jumping:
@@ -133,12 +136,12 @@ class Luigi(pygame.sprite.Sprite):
         if len(ls_bl) > 0:# si de verdad hay colision
             for m in ls_bl:#otra solucion es que cuando toque por la parte de ariba del objeto la variacion en y sea 0
 
-                if self.rect.left == m.rect.right and self.dx > 0:
+                if self.dx > 0 and not self.colArriba:
                     self.colIzquierda = True
                     self.rect.right = m.rect.left
                     self.col = True # haga colision true para que no afecte la gravedad
                     #self.gravedad()
-                elif self.dx < 0 and self.rect.right == m.rect.left:
+                elif self.dx < 0 and not self.colArriba:
                     self.colDerecha = True
                     self.rect.left  = m.rect.right
                     self.col = True
@@ -152,18 +155,24 @@ class Luigi(pygame.sprite.Sprite):
         ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
         if len(ls_bl) > 0:
             for m in ls_bl:
-                if self.dy > 0 and self.rect.bottom == m.rect.top:
+                if self.dy > 0 and self.rect.bottom >= m.rect.top:
                     self.colArriba = True
                     self.rect.bottom = m.rect.top
+                    self.dy = 0
                     #como choca no puede estar en sprite de salto, esta montado en una platafoma
                     self.col = True
 
 
-                elif self.dy < 0 and m.rect.bottom == self.rect.top:
+                elif self.dy < 0 and self.rect.top <= m.rect.bottom:
                     self.colAbajo = True
                     self.rect.top  = m.rect.bottom
                     self.dy = 0
                     self.col = True
+
+                if self.rect.bottom > m.rect.top:
+                    self.rect.bottom = m.rect.top
+
+
         else:
             self.col = False
             self.colArriba = False
