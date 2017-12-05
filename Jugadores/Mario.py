@@ -45,7 +45,7 @@ class Mario(pygame.sprite.Sprite):
         #variable que calcula el salto de el mario significa que en faso
         self.saltar = False
         #self.vidas = vidas
-        self.plataformas =  None
+        #self.plataformas =  None
         self.suelos = pygame.sprite.Group()
         self.col = False
 
@@ -80,7 +80,7 @@ class Mario(pygame.sprite.Sprite):
         self.rect.x = y
 
     def movX(self):
-
+        #VALIDA QUE ESTE DENTRO DE LOS BORDES
         if self.rect.x >= ANCHO -self.rect.width and self.var_x >= 0:
             self.var_x = 0
 
@@ -122,7 +122,10 @@ class Mario(pygame.sprite.Sprite):
         #    self.saltar = False
         #    self.rect.y = ALTO - self.rect.height
 
+    def caer(self):
 
+        self.rect.y += self.var_y   #para que siempre juegue la gravedad
+        #self.validarColY()
 
 
     def salto(self):
@@ -138,9 +141,44 @@ class Mario(pygame.sprite.Sprite):
             self.saltar = True
             #este mientras sube ira perdiendo la altura con la gravedad activa
 
-    def gritar(self):
-        #self.sonido.play()
-        pass
+
+    """
+    def validarColX(self):
+
+        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
+        if len(ls_bl) > 0:# si de verdad hay colision
+            for m in ls_bl:#otra solucion es que cuando toque por la parte de ariba del objeto la variacion en y sea 0
+
+                if self.var_x > 0:
+                    self.rect.right = m.rect.left
+                    self.col = True # haga colision true para que no afecte la gravedad
+                    #self.gravedad()
+                elif self.var_x < 0:
+                    self.rect.left  = m.rect.right
+                    self.col = True
+                    #self.gravedad()
+        else:
+            self.col = False# si no hay colision active de nuevo la gravedad
+
+    def validarColY(self):
+
+        self.rect.y += self.var_y   #para que siempre juegue la gravedad
+        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
+        if len(ls_bl) > 0:
+            for m in ls_bl:
+                if self.var_y > 0:
+                    self.rect.bottom = m.rect.top
+                    #como choca no puede estar en sprite de salto, esta montado en una platafoma
+                    self.saltar = False
+                    self.col = True
+
+
+                elif self.var_y < 0:
+                    self.rect.top  = m.rect.bottom
+                    self.var_y = 0
+                    self.col = True
+        else:
+            self.col = False"""
 
     def validarColision(self):
 
@@ -170,8 +208,13 @@ class Mario(pygame.sprite.Sprite):
                     self.col = True
 
 
+
                 elif self.var_y < 0:
                     self.rect.top  = m.rect.bottom
+
+                    if m.getTipo() == 'bonus':
+                        m.modificarEstado(self.estado)
+
                     self.var_y = 0
                     self.col = True
         else:
@@ -200,6 +243,7 @@ class Mario(pygame.sprite.Sprite):
             self.image = self.m[self.i][self.dir]
         #self.rect = self.image.get_rect()
         self.rect.x += self.var_x
+        #self.validarColX()
 
     #Se encarga de controlar la velocidad con la que se mueve mario en el X va ir aumentando a medida que este se mueva
     def aumentoVelocidad(self):
@@ -210,9 +254,11 @@ class Mario(pygame.sprite.Sprite):
 
                 if self.var_x > 0:
                     self.var_x += self.vel_x
+                    #self.validarColX()
                     self.var_basesprite -= self.vel_x/3
                 else:
                     self.var_x -= self.vel_x
+                    #self.validarColX()
                     self.var_basesprite -= self.vel_x/3
 
     #hace crecer a mario
@@ -255,13 +301,20 @@ class Mario(pygame.sprite.Sprite):
         #self.rect.y += self.var_y
 
         self.aumentoVelocidad()
+        #movimiento de los sprites
+        self.movSprite()
+        #self.validarColX()
 
         self.gravedad()
         #colisiones
         self.validarColision()
+        #self.caer()
 
-        #movimiento de los sprites
-        self.movSprite()
+
+
+        #self.validarColY()
+
+
 
         #validamos siempre de que tamano es mario
         self.validarImagen()

@@ -41,11 +41,13 @@ def moverFondo(fx, varx):
 
 def Nivel1(pantalla):
 
-
+    pygame.display.set_caption("MARIO RELOAD")
 
     jugadores = pygame.sprite.Group()
     general = pygame.sprite.Group()
     balasmario = pygame.sprite.Group()
+    Bonus = pygame.sprite.Group() #donde entraran todos los elementos que sean bonus (vidas, crecer, fuego)
+    cuadros = pygame.sprite.Group() #todo tipo de cuadro, destruibles, bonus, monedas, invisibles
 
     #FUNCIONALIDADES DEL MAPA
 
@@ -58,7 +60,7 @@ def Nivel1(pantalla):
     jugadores.add(mario)
 
     #SE VA ENCARGAR DE IR DIBUJANDO EL MAPA A MEDIDA QUE VA AVANZADO MARIO
-    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general )
+    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general,cuadros )
     controllerMapa.dibujarmapa()
 
     reloj = pygame.time.Clock()
@@ -156,8 +158,31 @@ def Nivel1(pantalla):
         f_x  = moverFondo(f_x, f_varx) #ubicacion en el archivo json
 
         moverGrupoSprites(suelos, f_varx)#mueve todo lo que sea suelo, sabanamapas[0][0]
+        moverGrupoSprites(Bonus, f_varx)
 
+        #VALIDA SI CADA CUADRO TIENE QUE CREAR EL BONUS AL CUAL MARIO HA GOLPEADO
+        for c in cuadros:
+            if c.crear:
+                if c.create == "poder":
+                    #print "si"
+                    if mario.estado == 1:
+                        p = PoderHongo(mario.estado, c.rect.x, c.rect.y,suelos)
+                        general.add(p)
+                        Bonus.add(p)
+                    else:
+                        p = PoderFuego(mario.estado, c.rect.x, c.rect.y)
+                        general.add(p)
+                        Bonus.add(p)
+                    c.crear = False
 
+        #colision de mario con los bonus
+        ls_col = pygame.sprite.spritecollide(mario, Bonus, True)
+        if len(ls_col) > 0:
+            for e in ls_col:
+                if e.efecto == 'fuego': #evento que consigue el mario fuego
+                    mario.crecer()
+                if e.efecto == "crecer":
+                    mario.crecer()
         pantalla.fill(NEGRO)
         #pantalla.blit(fondo,[f_x,0])
         general.update()
@@ -167,6 +192,7 @@ def Nivel1(pantalla):
         balasmario.draw(pantalla)
         pygame.display.flip()
         reloj.tick(60)
+
 
 
 

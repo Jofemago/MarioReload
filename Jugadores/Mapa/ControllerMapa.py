@@ -6,17 +6,18 @@ from configuraciones import *
 
 class MakeMapa:
 
-    def __init__(self,mapa, sabana,suelos,fondos,general):
+    def __init__(self,mapa, sabana,suelos,fondos,general,cuadros):
 
         self.mapa = mapa
-        print mapa
+        #print mapa
         self.sabana = sabana
         self.filas = len(self.mapa)
         self.col = len(self.mapa[0])
         self.suelos = suelos#controlar donde el personaje solo puede pisar
         self.fondos = fondos #se guardaran los fonsdos aqui
         self.general = general#controlatodo
-        print self.filas, self.col
+        self.cuadros = cuadros #todo tipo de cuadros que al golpear mario den bonus
+        #print self.filas, self.col
 
     def dibujarmapa(self):
         for i in range(self.filas):
@@ -31,7 +32,9 @@ class MakeMapa:
 
                 #Signo de interrogacion  BONUS
                 if self.mapa[i][j] == 3 :
-                    m = bonus(j*40 , i*40)
+                    m = bonuspoder(j*40 , i*40)
+                    #m.golpe = True
+                    self.cuadros.add(m)
                     self.suelos.add(m)
                     self.general.add(m)
 
