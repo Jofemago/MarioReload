@@ -74,9 +74,9 @@ class lava(pygame.sprite.Sprite):
 
 class bonus(pygame.sprite.Sprite):
 
-    def __init__(self,x , y):
+    def __init__(self,x , y, archivo, f, c):
         pygame.sprite.Sprite.__init__(self)
-        self.m = recortar('Jugadores/Mapa/imgmapas/bonus.png',4,1)
+        self.m = recortar(archivo,f,c)
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
         self.setPos(x,y)
@@ -146,7 +146,7 @@ class bonus(pygame.sprite.Sprite):
 class bonuspoder(bonus):
 
     def __init__(self, x, y):
-        bonus.__init__(self,x , y)
+        bonus.__init__(self,x , y,'Jugadores/Mapa/imgmapas/bonus.png',4,1)
         self.create = "poder"#significa que se creara una hongo de crecimiento o un poder en fuego dependiendo del estado del mario
         self.estadoBonus = 0
 
@@ -160,20 +160,66 @@ class bonuspoder(bonus):
             self.estadoBonus += 1
             self.crear = True
 
+class bonusVida(bonus):
+
+    def __init__(self,x , y):
+        bonus.__init__(self,x , y,'Jugadores/Mapa/imgmapas/invisible1.png',2,1)
+        self.create = "vivir"#significa que se creara una hongo de crecimiento o un poder en fuego dependiendo del estado del mario
+        self.estadoBonus = 0
+
+
+    def setPos(self, x,  y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+    def movSprite(self):
+
+        if not self.golpe:
+            self.i = 0
+        else:
+            self.i = 1
+
+    def update(self):
+        bonus.update(self)
+
+        if self.golpe == True and self.estadoBonus == 0:
+
+            self.estadoBonus += 1
+            self.crear = True
+
+
+class bonusMoneda(bonus):
+
+    def __init__(self, x, y):
+        bonus.__init__(self,x , y,'Jugadores/Mapa/imgmapas/bonus.png',4,1)
+        self.create = "moneda"#significa que se creara una hongo de crecimiento o un poder en fuego dependiendo del estado del mario
+        self.estadoBonus = 0
+
+    def update(self):
+        bonus.update(self)
+
+        if self.golpe == True and self.estadoBonus == 0:
+
+            self.estadoBonus += 1
+            self.crear = True
+
+
+
 
 
 #Objetos que salen de de los bonus
 
-class PoderHongo(pygame.sprite.Sprite):
+class Hongo(pygame.sprite.Sprite):
 
-    def __init__(self, estado,x,y,suelos):
+    def __init__(self, estado,x,y,suelos, archivo,an, al):
         pygame.sprite.Sprite.__init__(self)
-        self.m = recortar('Jugadores/Mapa/imgmapas/hongo.png',5,1)
+        self.m = recortar(archivo,an,al)
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
         self.bonus = 100 #cantidad de puntos que entrega esta hazana
 
-        self.efecto = "crecer"
+        #self.efecto = "crecer"
 
         self.estado = estado #estado del mario pra saber que crea
         self.setPos(x,y - 40)
@@ -248,7 +294,7 @@ class PoderHongo(pygame.sprite.Sprite):
     def CrecerSprite(self):
 
         if self.crecer:
-            print self.var_sprite
+            #print self.var_sprite
             #mientras crece sube el lvl este prooo
             if self.var_sprite <= 0:
 
@@ -266,7 +312,7 @@ class PoderHongo(pygame.sprite.Sprite):
 
 
     def movimientoX(self):
-        print self.dir
+        #print self.dir
         if self.dir == 2:
             self.var_x = 3
         else:
@@ -291,7 +337,17 @@ class PoderHongo(pygame.sprite.Sprite):
         self.validarColision()
         self.destruir()
 
+class PoderHongo(Hongo):
 
+    def __init__(self,estado,x,y,suelos):
+        Hongo.__init__(self, estado,x,y,suelos, 'Jugadores/Mapa/imgmapas/hongo.png', 5, 1)
+        self.efecto = "crecer"
+
+class VidaHongo(Hongo):
+
+    def __init__(self,estado,x,y,suelos):
+        Hongo.__init__(self, estado,x,y,suelos, 'Jugadores/Mapa/imgmapas/vida.png', 5, 1)
+        self.efecto = "vida"
 #--------------------------------------------
 class PoderFuego(pygame.sprite.Sprite):
 
@@ -317,7 +373,7 @@ class PoderFuego(pygame.sprite.Sprite):
     def CrecerSprite(self):
 
         if self.crecer:
-            print self.var_sprite
+            #print self.var_sprite
             #mientras crece sube el lvl este prooo
             if self.var_sprite <= 0:
 
@@ -343,3 +399,250 @@ class PoderFuego(pygame.sprite.Sprite):
 
         self.CrecerSprite()
         self.ubicarimg()
+
+class Moneda(pygame.sprite.Sprite):
+
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.m = recortar('Jugadores/Mapa/imgmapas/moneda.png',4,1)
+        self.image = self.m[0][0]
+        self.rect = self.image.get_rect()
+        self.bonus = 50 #cantidad de puntos que entrega esta hazana
+
+        self.efecto = "moneda"
+
+        self.i = 0
+        self.var_basesprite = 8 # cada cuanto se activa el sprite
+        self.var_sprite = self.var_basesprite
+        self.setPos(x,y)
+
+    def MovimientoSprite(self):
+
+        if self.var_sprite <= 0:
+
+            if self.i <  3:
+                self.i += 1
+            else:
+                self.i = 0
+                #self.rect.x += 100
+
+            self.var_sprite = self.var_basesprite
+        self.var_sprite -= 1
+
+    def ubicarimg(self):
+        self.image = self.m[self.i][0]
+
+    def setPos(self,x,y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+    def destruir(self):
+
+        if self.rect.y > ANCHO:
+            self.kill
+
+    def update(self):
+
+        self.MovimientoSprite()
+        self.ubicarimg()
+        self.destruir()
+
+
+
+class MonedaCuadro(Moneda):
+
+    def __init__(self,x,y):
+
+        Moneda.__init__(self,x,y)
+        #self.rect.y -= 70
+        self.posini = y
+        self.pos = False
+        self.g = 10
+        self.saltar = False
+
+
+    def salto(self):
+        if not self.saltar:
+            self.var_y = self.g
+        if self.rect.y < self.posini - 70:
+            self.saltar = True
+
+
+
+    def caer(self):
+        if  self.saltar:
+            self.var_y = -10
+
+
+    def gravedad(self):
+        self.rect.y += 0.25
+
+    def update(self):
+        Moneda.update(self)
+        self.salto()
+        self.caer()
+        self.rect.y -= self.var_y
+        #self.var_y = 0
+        #self.saltar = True
+
+        self.gravedad()
+
+        if self.rect.y > self.posini:
+            self.kill()
+
+
+class MuroMonedas(pygame.sprite.Sprite):
+
+    def __init__(self,x , y ):
+        pygame.sprite.Sprite.__init__(self)
+        self.m = recortar('Jugadores/Mapa/imgmapas/muroMonedas.png',2,1)
+        self.image = self.m[0][0]
+        self.rect = self.image.get_rect()
+        self.setPos(x,y)
+        self.posy = y #posicion inicial de y
+        self.i = 0
+        #self.timesprite = 10
+        #self.actualizasprite = self.timesprite
+        self.create = "monedasladrillo"
+
+        #elemento que dice si va crear o no, si algun sprite no crea se le incializara crearte en False
+        self.crear = False
+
+        #ACA VALIDA LAS COLISIONES
+        self.golpe = False #valida con esto si el el mario ha chocado con el
+        self.golpazo = False
+        self.estadoMario = 1 #valida en que estado esta mario para ver que tiene que hacer en este estado
+
+        self.monedas = 4
+        self.monedasobtenidas = 0
+
+    def getTipo(self):
+        return 'bonus'
+
+    def setPos(self, x,  y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+    def modificarEstado(self, estadomario):
+        self.golpe = True
+        self.estadoMario = estadomario
+        self.golpazo = True
+
+    def updateSprite(self):
+
+
+        self.image = self.m[self.i][0]
+
+    def movSprite(self):
+
+        if self.monedasobtenidas >= self.monedas:
+            self.i = 1
+        else:
+            self.i = 0
+
+    def gravedad(self):
+
+        if self.rect.y < self.posy:
+            self.rect.y += 2
+
+    def update(self):
+        #print self.golpe
+        self.movSprite()
+        self.updateSprite()
+        self.gravedad()
+        if self.golpazo :
+            self.rect.y -= 14
+            self.golpazo = False
+
+        if self.golpe == True and self.monedasobtenidas < self.monedas:
+
+            self.monedasobtenidas += 1
+            self.crear = True
+            self.golpe = False
+
+
+
+class MuroLadrillos(pygame.sprite.Sprite):
+
+    def __init__(self,x , y ,archivo):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = archivo
+        self.rect = self.image.get_rect()
+        self.setPos(x,y)
+        self.posy = y #posicion inicial de y
+        #self.timesprite = 10
+        #self.actualizasprite = self.timesprite
+        self.create = "ladrillo"
+
+        #elemento que dice si va crear o no, si algun sprite no crea se le incializara crearte en False
+        self.crear = False
+
+        #ACA VALIDA LAS COLISIONES
+        self.golpe = False #valida con esto si el el mario ha chocado con el
+        self.golpazo = False
+        self.estadoMario = 1 #valida en que estado esta mario para ver que tiene que hacer en este estado
+
+
+    def getTipo(self):
+        return 'bonus'
+
+    def setPos(self, x,  y):
+
+        self.rect.x = x
+        self.rect.y = y
+
+    def modificarEstado(self, estadomario):
+
+        self.estadoMario = estadomario
+        self.golpe = True
+        self.golpazo = True
+        #self.crear = True
+
+    def gravedad(self):
+
+        if self.rect.y < self.posy:
+            self.rect.y += 2
+
+    def destruir(self):
+
+        if self.estadoMario > 1:
+            return True
+        else:
+            return False
+
+    def update(self):
+        #print self.golpe
+
+        self.gravedad()
+        if self.golpazo :
+            self.rect.y -= 14
+            self.golpazo = False
+            self.crear = True
+
+
+class escombro(pygame.sprite.Sprite):
+
+    def __init__(self,x , y, archivo, vel_x):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = archivo
+        self.rect = self.image.get_rect()
+
+        self.vel_x = vel_x
+        self.setPos(x,y)
+
+
+    def setPos(self,x,y):
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self):
+
+        self.rect.y += 5
+        self.rect.x += self.vel_x
+        if self.rect.y > ALTO-100:
+            self.kill()

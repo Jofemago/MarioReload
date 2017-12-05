@@ -18,7 +18,9 @@ bolafuego = 'Objetos/boladefuego.png'
 mariofuego = 'Jugadores/imgJugador/MarioFuego.png'
 sabanamapas = 'Jugadores/Mapa/imgmapas/sabanamapas.png'
 
+
 mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel1.json')
+
 def limiteMovMario(mario, limitemario):
 
     #valida cuando es el momneto de mover el mapa de mario
@@ -48,7 +50,7 @@ def Nivel1(pantalla):
     balasmario = pygame.sprite.Group()
     Bonus = pygame.sprite.Group() #donde entraran todos los elementos que sean bonus (vidas, crecer, fuego)
     cuadros = pygame.sprite.Group() #todo tipo de cuadro, destruibles, bonus, monedas, invisibles
-
+    esc = pygame.sprite.Group()
     #FUNCIONALIDADES DEL MAPA
 
     #GRUPOS DE ELEMENTO QUE HAY EN LA sabanamapas
@@ -60,7 +62,8 @@ def Nivel1(pantalla):
     jugadores.add(mario)
 
     #SE VA ENCARGAR DE IR DIBUJANDO EL MAPA A MEDIDA QUE VA AVANZADO MARIO
-    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general,cuadros )
+    controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general,cuadros,Bonus )
+    controllerMapa.dibujarFondo(1)
     controllerMapa.dibujarmapa()
 
     reloj = pygame.time.Clock()
@@ -68,6 +71,7 @@ def Nivel1(pantalla):
 
 
 
+    Escombros = recortar( 'Jugadores/Mapa/imgmapas/escombros1.png',4,1)
 
 
     imgsuelo = 'Jugadores/Mapa/imgmapas/prueba.png'
@@ -159,10 +163,12 @@ def Nivel1(pantalla):
 
         moverGrupoSprites(suelos, f_varx)#mueve todo lo que sea suelo, sabanamapas[0][0]
         moverGrupoSprites(Bonus, f_varx)
+        moverGrupoSprites(esc, f_varx)
 
         #VALIDA SI CADA CUADRO TIENE QUE CREAR EL BONUS AL CUAL MARIO HA GOLPEADO
         for c in cuadros:
             if c.crear:
+
                 if c.create == "poder":
                     #print "si"
                     if mario.estado == 1:
@@ -174,7 +180,49 @@ def Nivel1(pantalla):
                         general.add(p)
                         Bonus.add(p)
                     c.crear = False
+                if c.create == "vivir":
+                    p = VidaHongo(mario.estado, c.rect.x, c.rect.y,suelos)
+                    general.add(p)
+                    Bonus.add(p)
+                    c.crear = False
 
+                if c.create == "moneda":
+                    p = MonedaCuadro( c.rect.x, c.rect.y - 40)
+                    print 'Ganaste moneda por darle al cuadro'
+                    general.add(p)
+                    Bonus.add(p)
+                    #Bonus.add(k)
+                    #general.add(k)
+                    c.crear = False
+                if c.create == "monedasladrillo":
+                    p = MonedaCuadro( c.rect.x, c.rect.y - 40)
+                    print 'Ganaste moneda por darle al ladrillo'
+                    general.add(p)
+                    Bonus.add(p)
+                    #Bonus.add(k)
+                    #general.add(k)
+                    c.crear = False
+
+                if c.create == "ladrillo":
+                    if c.destruir():
+                        e = escombro(c.rect.x -20, c.rect.y - 50 -20 ,Escombros[0][0],-1)
+                        esc.add(e)
+                        general.add(e)
+                        e = escombro(c.rect.x+20, c.rect.y -50 -20 ,Escombros[1][0],1)
+                        esc.add(e)
+                        general.add(e)
+                        e = escombro(c.rect.x-10, c.rect.y -20 ,Escombros[2][0],-1)
+                        general.add(e)
+                        esc.add(e)
+                        e = escombro(c.rect.x+10, c.rect.y -20 ,Escombros[3][0],1)
+                        general.add(e)
+                        esc.add(e)
+                        #fondos.add(e)
+
+                        c.kill()
+
+
+                    c.crear = False
         #colision de mario con los bonus
         ls_col = pygame.sprite.spritecollide(mario, Bonus, True)
         if len(ls_col) > 0:
@@ -183,8 +231,17 @@ def Nivel1(pantalla):
                     mario.crecer()
                 if e.efecto == "crecer":
                     mario.crecer()
+                if e.efecto == "vida":
+                    print 'Has ganado una vida'
+                if e.efecto == "moneda":
+                    print "ganaste moneda"
+                    e.kill()
+
+
         pantalla.fill(NEGRO)
         #pantalla.blit(fondo,[f_x,0])
+        fondos.update()
+        fondos.draw(pantalla)
         general.update()
         jugadores.update()
         general.draw(pantalla)

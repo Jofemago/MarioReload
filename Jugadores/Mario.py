@@ -141,45 +141,6 @@ class Mario(pygame.sprite.Sprite):
             self.saltar = True
             #este mientras sube ira perdiendo la altura con la gravedad activa
 
-
-    """
-    def validarColX(self):
-
-        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
-        if len(ls_bl) > 0:# si de verdad hay colision
-            for m in ls_bl:#otra solucion es que cuando toque por la parte de ariba del objeto la variacion en y sea 0
-
-                if self.var_x > 0:
-                    self.rect.right = m.rect.left
-                    self.col = True # haga colision true para que no afecte la gravedad
-                    #self.gravedad()
-                elif self.var_x < 0:
-                    self.rect.left  = m.rect.right
-                    self.col = True
-                    #self.gravedad()
-        else:
-            self.col = False# si no hay colision active de nuevo la gravedad
-
-    def validarColY(self):
-
-        self.rect.y += self.var_y   #para que siempre juegue la gravedad
-        ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
-        if len(ls_bl) > 0:
-            for m in ls_bl:
-                if self.var_y > 0:
-                    self.rect.bottom = m.rect.top
-                    #como choca no puede estar en sprite de salto, esta montado en una platafoma
-                    self.saltar = False
-                    self.col = True
-
-
-                elif self.var_y < 0:
-                    self.rect.top  = m.rect.bottom
-                    self.var_y = 0
-                    self.col = True
-        else:
-            self.col = False"""
-
     def validarColision(self):
 
         ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
@@ -211,14 +172,20 @@ class Mario(pygame.sprite.Sprite):
 
                 elif self.var_y < 0:
                     self.rect.top  = m.rect.bottom
+                    self.ChoqueCabezaMario(m)
 
-                    if m.getTipo() == 'bonus':
-                        m.modificarEstado(self.estado)
 
                     self.var_y = 0
                     self.col = True
         else:
             self.col = False
+
+
+    #como actualizar determiandos suelos cuando la cabeza del mario los toque
+    def ChoqueCabezaMario(self, m):
+        #QUE TIENE QUE HACER CUANDO CHOQUE LOS DISTINTOS TIPOS DE CUADROS POR DEBAJO
+        if m.getTipo() == 'bonus':
+            m.modificarEstado(self.estado)
 
 
     #SE ENCARGA DEL MOVIMIENTO TANTO COMO DEL SPRITE COMO DE INCREMETAR EL MOVMINETO DEL JUGADOR
