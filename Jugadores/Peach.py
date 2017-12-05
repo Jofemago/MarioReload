@@ -24,7 +24,7 @@ class Peach(pygame.sprite.Sprite):
         self.dy = 0
         self.jumping = False
         self.suelos = None
-        self.vidas = 5
+        self.vidas = 20
         self.dead = False
         self.caer = False #se activa cuando Peach está cayendo a la lava
 

@@ -95,6 +95,8 @@ def nivel3(pantalla):
 	controllerMapa = MakeMapa(mapa,recortar(sabanamapas,10,10),suelos,fondos,general,cuadros,Bonus)
 	controllerMapa.dibujarmapa()
 
+	controllerMapa.dibujarFondo(3)
+
 	#se añaden los grupos de suelos a los personajes
 	mario.suelos = suelos
 	luigi.suelos = suelos
@@ -468,6 +470,8 @@ def nivel3(pantalla):
 
 
 		pantalla.fill(NEGRO)
+		#fondos.update()
+		#fondos.draw(pantalla)
 		if not (BD1 or BD2 or BD3 or BD4 or BD5 or BD6 or BDF1 or BDF2 or BDF3 or BDF4 or BDF5 or BDF6):
 			general.update()
 			if mario.rect.top <= ALTO:
@@ -495,12 +499,13 @@ def nivel3(pantalla):
 			if vidasMario == -1:
 				tvidasMario = "Mario: 0 vidas"
 			font = pygame.font.SysFont("comicsansms",30)
-			imgTMario = font.render(tvidasMario,1,NEGRO)
-			imgTLuigi = font.render(tvidasLuigi,1,NEGRO)
-			imgTPeach = font.render(tvidasPeach,1,NEGRO)
+			imgTMario = font.render(tvidasMario,1,BLANCO)
+			imgTLuigi = font.render(tvidasLuigi,1,BLANCO)
+			imgTPeach = font.render(tvidasPeach,1,BLANCO)
 			pantalla.blit(imgTMario,[0,0])
 			pantalla.blit(imgTLuigi,[200,0])
 			pantalla.blit(imgTPeach,[400,0])
+			
 
 		if BD1:#primer diálogo
 			general.draw(pantalla)
@@ -508,6 +513,7 @@ def nivel3(pantalla):
 			gLuigi.draw(pantalla)
 			gPeach.draw(pantalla)
 			pantalla.blit(D1,[mario.rect.right,mario.rect.top - mario.rect.height])
+			controllerMapa.dibujarFondo(3)
 
 
 		if BD2:
