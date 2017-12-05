@@ -33,6 +33,11 @@ class MakeMapa:
                     #self.general.add(m)
                 if nivel == 2:
                     pass
+                if nivel == 3:
+                    m = suelo(self.sabana[1][9])
+                    m.setpos(j*40 , i*40)
+                    self.fondos.add(m)
+
 
     def dibujarmapa(self):
         for i in range(self.filas):
@@ -104,12 +109,12 @@ class MakeMapa:
                     self.general.add(m)
 
                 #Pinta los fondos
-                if self.mapa[i][j] == 92:
+                """if self.mapa[i][j] == 92:
 
                     m = suelo(self.sabana[1][9])
                     m.setpos(j*40 , i*40)
                     self.fondos.add(m)
-                    self.general.add(m)
+                    self.general.add(m)"""
 
                 #pinta lava en el tercermundo
                 if self.mapa[i][j] == 93:

@@ -187,7 +187,7 @@ def nivel3(pantalla):
 	levantarLuigi = 40 #variable que se utilizará para simular que Luigi levanta la tecla y deja de hacer algo
 	puntosPeach = 4 #cuando está golpeando, cada cuatro ciclos se quita un punto
 
-	win = False #Al final es la variable que se va a retornar 
+	win = False #Al final es la variable que se va a retornar
 
 
 	while not fin:
@@ -284,7 +284,7 @@ def nivel3(pantalla):
 				BDF3 = False
 				BDF4 = False
 
-			tDialogoF += 1	
+			tDialogoF += 1
 
 
 		rand = random.randrange(1,6)#variable aleatoria que decidirá la acción de Luigi
@@ -319,7 +319,7 @@ def nivel3(pantalla):
 		if luigi.rect.right >= ANCHO and not luigi.dead:
 			luigi.left()
 
-			
+
 
 		if luigi.disparo:
 			bola = FireBall(corteBola,suelos)
@@ -415,7 +415,7 @@ def nivel3(pantalla):
 			peach.dx = 0
 
 
-	
+
 
 
 
@@ -594,5 +594,3 @@ def nivel3(pantalla):
 		clock.tick(30)
 
 	return win
-
-
