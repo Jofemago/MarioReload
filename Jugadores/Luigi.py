@@ -35,6 +35,10 @@ class Luigi(pygame.sprite.Sprite):
         self.colAbajo = False
         self.colIzquierda = False
 
+        self.vida = 20 #cantidad de vidas iniciales 
+        self.dead = False
+        self.caer = False #variable que indica si Luigi está cayendo a la lava
+
     def update(self):
         self.disparar()
         self.validarColision()
@@ -51,6 +55,13 @@ class Luigi(pygame.sprite.Sprite):
 
 
         self.image = self.m[self.i][self.dir]
+        if self.rect.right >= ANCHO - 120 and not self.caer:
+            self.left()
+
+        if self.rect.left <= 0:
+            self.right()
+
+
         if self.rect.right <= ANCHO and self.rect.left >= 0:
             self.rect.x += self.dx
 
@@ -61,14 +72,16 @@ class Luigi(pygame.sprite.Sprite):
         if self.rect.left <= 0 and self.dx > 0 and not self.colDerecha and not self.colIzquierda:
             self.rect.x += self.dx
 
-        if self.rect.top >= 0 and self.rect.bottom <= ALTO and self.dy > 0:
-            self.rect.y += self.dy
-
-        if self.rect.top >= 0 and self.rect.bottom <= ALTO:
-            self.rect.y += self.dy
+        self.rect.y += self.dy
 
         if self.rect.top <= 0 and self.dy > 0:
             self.rect.y += self.dy
+
+
+        if self.rect.left <= 0:
+            self.right()
+
+
 
 
 
@@ -76,14 +89,18 @@ class Luigi(pygame.sprite.Sprite):
 
         self.gravity()
 
+        if self.vida == 0:#muere
+            self.dead = True
+        else:
+            self.dead = False
+
+
+
 
     def gravity(self):
         if not self.col:
             self.dy += 1
 
-            if self.rect.bottom >= ALTO:
-                self.dy = 0
-                self.rect.bottom = ALTO
 
         else:
             self.dy == 0
@@ -177,6 +194,10 @@ class Luigi(pygame.sprite.Sprite):
             self.col = False
             self.colArriba = False
             self.colAbajo = False
+
+
+
+
 
 
 

@@ -6,5 +6,5 @@ from Nivel3 import *
 if __name__ == '__main__':
 	pygame.init()
 	pantalla=pygame.display.set_mode([ANCHO, ALTO])
-	nivel3(pantalla)
+	win = nivel3(pantalla)
 
