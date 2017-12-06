@@ -12,7 +12,7 @@ class Mario(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.m = imgfuego
 
-
+        self.vidas = 3
         self.imgpeque = imgpeque
         self.imggrande = imggrande
         self.imgfuego = imgfuego
@@ -20,7 +20,7 @@ class Mario(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.setPos(100,0)
 
-
+        self.bonus = 0
         #estado para saber que mario es, peque fuego o grande
         self.estado = 1
 
@@ -47,6 +47,7 @@ class Mario(pygame.sprite.Sprite):
         #self.vidas = vidas
         #self.plataformas =  None
         self.suelos = pygame.sprite.Group()
+        #self.Enemigos = pygame.sprite.Group()
         self.col = False
 
 
@@ -55,6 +56,19 @@ class Mario(pygame.sprite.Sprite):
         self.tiempodis = 20 # tiempo que debe esperar despues de dispara para seguir disparando
         self.controldis = self.tiempodis#tiempo que se reducria
 
+        self.inmune = False
+        self.inmunebase = 30
+        self.tiempoinmune = self.inmunebase
+        self.morir = False
+
+    def inmunidad(self):
+
+        if self.inmune == True:
+            if self.tiempoinmune  <= 0:
+                self.inmune = False
+            self.tiempoinmune -= 1
+        else:
+            self.tiempoinmune = self.inmunebase
 
     def disparar(self):
 
@@ -158,6 +172,7 @@ class Mario(pygame.sprite.Sprite):
         else:
             self.col = False# si no hay colision active de nuevo la gravedad
 
+
         self.rect.y += self.var_y   #para que siempre juegue la gravedad
         ls_bl = pygame.sprite.spritecollide(self,self.suelos, False)
         if len(ls_bl) > 0:
@@ -179,6 +194,8 @@ class Mario(pygame.sprite.Sprite):
                     self.col = True
         else:
             self.col = False
+
+
 
 
     #como actualizar determiandos suelos cuando la cabeza del mario los toque
@@ -263,28 +280,30 @@ class Mario(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self):
+        if not self.morir:
+            self.inmunidad()#valida si acaba de chocar contra algun enemigo
 
-        self.movX()
-        #self.rect.y += self.var_y
+            self.movX()
+            #self.rect.y += self.var_y
 
-        self.aumentoVelocidad()
-        #movimiento de los sprites
-        self.movSprite()
-        #self.validarColX()
+            self.aumentoVelocidad()
+            #movimiento de los sprites
+            self.movSprite()
+            #self.validarColX()
 
-        self.gravedad()
-        #colisiones
-        self.validarColision()
-        #self.caer()
+            self.gravedad()
+            #colisiones
+            self.validarColision()
+            #self.caer()
 
+            #validamos siempre de que tamano es mario
+            self.validarImagen()
 
+            # si se ha disparado espera un momento corto para volverlo a hacer
+            self.disparar()
+        else:
+            #self.caer()
 
-        #self.validarColY()
-
-
-
-        #validamos siempre de que tamano es mario
-        self.validarImagen()
-
-        # si se ha disparado espera un momento corto para volverlo a hacer
-        self.disparar()
+            self.var_y -= 1
+            self.rect.y -= self.var_y
+            self.image = self.m[1][4]

@@ -20,7 +20,7 @@ mariofuego = 'Jugadores/imgJugador/MarioFuego.png'
 sabanamapas = 'Jugadores/Mapa/imgmapas/sabanamapas.png'
 
 
-mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel1.json')
+mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel2.json')
 
 def limiteMovMario(mario, limitemario):
 
@@ -66,7 +66,7 @@ def Nivel1(pantalla):
     #SE VA ENCARGAR DE IR DIBUJANDO EL MAPA A MEDIDA QUE VA AVANZADO MARIO
     sabanaMapa = recortar(sabanamapas,10,10)
     controllerMapa = MakeMapa(mapa,sabanaMapa,suelos,fondos,general,cuadros,Bonus )
-    controllerMapa.dibujarFondo(1)
+    controllerMapa.dibujarFondo(2)
     controllerMapa.dibujarmapa()
 
     controllerEnemigos = MakeEnemys(mapa, sabanaMapa, EnemigosA, EnemigosB,suelos, general)
@@ -76,7 +76,7 @@ def Nivel1(pantalla):
 
 
 
-    Escombros = recortar( 'Jugadores/Mapa/imgmapas/escombros1.png',4,1)
+    Escombros = recortar( 'Jugadores/Mapa/imgmapas/escombros2.png',4,1)
 
 
     imgsuelo = 'Jugadores/Mapa/imgmapas/prueba.png'

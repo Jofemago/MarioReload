@@ -24,7 +24,7 @@ class MakeMapa:
     def dibujarFondo(self, nivel):
         #dibuja un fondo dependiendo del nivel especifico
         for j in range(ANCHO /40):
-            for i in range(1,ALTO /40):
+            for i in range(ALTO /40):
                 if nivel == 1:
                     #print 'hola'
                     m = suelo(self.sabana[3][0])
@@ -65,11 +65,13 @@ class MakeMapa:
 
                 #Bonus
                 if self.mapa[i][j] == 5 :
-                    m = bonusVida(j*40 , i*40)
+                    m = bonusVida(j*40 , i*40, 'Jugadores/Mapa/imgmapas/invisible1.png')
                     #m.golpe = True
                     self.cuadros.add(m)
                     self.suelos.add(m)
                     self.general.add(m)
+
+
 
                 #monedas
                 if self.mapa[i][j] == 6 :
@@ -92,7 +94,15 @@ class MakeMapa:
 
                 #ladrillos de monedas
                 if self.mapa[i][j] == 8 :
-                    m = MuroMonedas(j*40 , i*40)
+                    m = MuroMonedas(j*40 , i*40,'Jugadores/Mapa/imgmapas/muroMonedas.png')
+                    #m.golpe = True
+                    self.cuadros.add(m)
+                    self.suelos.add(m)
+                    #self.Bonus.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 54 :
+                    m = MuroMonedas(j*40 , i*40,'Jugadores/Mapa/imgmapas/muroMonedas2.png')
                     #m.golpe = True
                     self.cuadros.add(m)
                     self.suelos.add(m)
@@ -125,6 +135,35 @@ class MakeMapa:
 
                 if self.mapa[i][j] == 14:
                     m = suelo(self.sabana[3][1])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+
+                #SEGUNDO NIVEL
+                if self.mapa[i][j] == 51 :
+                    m = suelo(self.sabana[0][5])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 53 :
+                    m = MuroLadrillos(j*40 , i*40,self.sabana[2][5])
+                    self.cuadros.add(m)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 52 :
+                    m = bonusVida(j*40 , i*40, 'Jugadores/Mapa/imgmapas/invisible2.png')
+                    #m.golpe = True
+                    self.cuadros.add(m)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                #Base del tercer mundo
+                if self.mapa[i][j] == 55:
+
+                    m = suelo(self.sabana[4][5])
                     m.setpos(j*40 , i*40)
                     self.suelos.add(m)
                     self.general.add(m)

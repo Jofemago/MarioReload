@@ -162,8 +162,8 @@ class bonuspoder(bonus):
 
 class bonusVida(bonus):
 
-    def __init__(self,x , y):
-        bonus.__init__(self,x , y,'Jugadores/Mapa/imgmapas/invisible1.png',2,1)
+    def __init__(self,x , y,archivo):
+        bonus.__init__(self,x , y,archivo,2,1)
         self.create = "vivir"#significa que se creara una hongo de crecimiento o un poder en fuego dependiendo del estado del mario
         self.estadoBonus = 0
 
@@ -325,8 +325,8 @@ class Hongo(pygame.sprite.Sprite):
 
     def destruir(self):
 
-        if self.rect.y > ANCHO:
-            self.kill
+        if self.rect.y >= ANCHO:
+            self.kill()
     def update(self):
 
         self.CrecerSprite()
@@ -356,7 +356,7 @@ class PoderFuego(pygame.sprite.Sprite):
         self.m = recortar('Jugadores/Mapa/imgmapas/fuego.png',5,1)
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
-        self.bonus = 100 #cantidad de puntos que entrega esta hazana
+        self.bonus = 200 #cantidad de puntos que entrega esta hazana
 
         self.efecto = "fuego"
 
@@ -407,7 +407,7 @@ class Moneda(pygame.sprite.Sprite):
         self.m = recortar('Jugadores/Mapa/imgmapas/moneda.png',4,1)
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
-        self.bonus = 50 #cantidad de puntos que entrega esta hazana
+        self.bonus = 150 #cantidad de puntos que entrega esta hazana
 
         self.efecto = "moneda"
 
@@ -494,9 +494,9 @@ class MonedaCuadro(Moneda):
 
 class MuroMonedas(pygame.sprite.Sprite):
 
-    def __init__(self,x , y ):
+    def __init__(self,x , y ,archivo):
         pygame.sprite.Sprite.__init__(self)
-        self.m = recortar('Jugadores/Mapa/imgmapas/muroMonedas.png',2,1)
+        self.m = recortar(archivo,2,1)
         self.image = self.m[0][0]
         self.rect = self.image.get_rect()
         self.setPos(x,y)
@@ -634,6 +634,7 @@ class escombro(pygame.sprite.Sprite):
 
         self.vel_x = vel_x
         self.setPos(x,y)
+        self.vary = 0.2
 
 
     def setPos(self,x,y):
@@ -641,8 +642,8 @@ class escombro(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self):
-
-        self.rect.y += 5
+        self.vary += 0.2
+        self.rect.y += 5 +self.vary
         self.rect.x += self.vel_x
         if self.rect.y > ALTO-100:
             self.kill()
