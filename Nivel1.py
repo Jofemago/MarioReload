@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pygame
 import random
 
@@ -99,7 +102,21 @@ def Nivel1(pantalla):
     limitemario = 400
     #para definir el liite que va el fondo, 0 es por un lado y -(ANCHOFONDO- ANCHOPANTALLA) es el limite de la derecha
 
+    conversacion = False #valida si Mario está conversando al final del nivel con Lakitu
+
+    #IMAGEN DE LAKITU:
+    Lakitu = pygame.image.load('Imagenes/Latiku/Latiku.png')
+    tConversacion = 0 #variable para los tiempos de conversación
+
+    #Imágenes de conversación
+    conv1 = pygame.image.load('Imagenes/Dialogos/primerNivel/1.png')
+    conv2 = pygame.image.load('Imagenes/Dialogos/primerNivel/2.png')
+    conv3 = pygame.image.load('Imagenes/Dialogos/primerNivel/3.png')
+
+
     while not fin:
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fin=True
@@ -295,20 +312,46 @@ def Nivel1(pantalla):
                         e.kill()
 
         if mario.rect.y > ALTO:
-            return [False, mario.vidas]
+            return [False, mario.vidas,0]
 
-        pantalla.fill(NEGRO)
-        #pantalla.blit(fondo,[f_x,0])
-        fondos.update()
-        fondos.draw(pantalla)
-        general.update()
-        jugadores.update()
-        general.draw(pantalla)
-        jugadores.draw(pantalla)
-        EnemigosA.draw(pantalla)
-        balasmario.draw(pantalla)
-        pygame.display.flip()
-        reloj.tick(60)
+
+        if f_x <= -7190:
+            conversacion = True
+
+
+        if not conversacion:
+            pantalla.fill(NEGRO)
+            #pantalla.blit(fondo,[f_x,0])
+            fondos.update()
+            fondos.draw(pantalla)
+            general.update()
+            jugadores.update()
+            general.draw(pantalla)
+            jugadores.draw(pantalla)
+            EnemigosA.draw(pantalla)
+            balasmario.draw(pantalla)
+            pygame.display.flip()
+            reloj.tick(60)
+
+        if conversacion:
+            pantalla.fill(NEGRO)
+            fondos.draw(pantalla)
+            general.draw(pantalla)
+            jugadores.draw(pantalla)
+            EnemigosA.draw(pantalla)
+            pantalla.blit(Lakitu,[ANCHO - 80,200])
+            if tConversacion >= 0 and tConversacion < 200:
+                pantalla.blit(conv1,[ANCHO - 130,90])
+            if tConversacion >= 200 and tConversacion < 400:
+                pantalla.blit(conv2,[ANCHO - 130,90])
+            if tConversacion >= 400 and tConversacion < 600:
+                pantalla.blit(conv3,[ANCHO - 130,90])
+            if tConversacion >= 600:
+                return [True,mario.vidas,mario.bonus]#se retorna que se ganó
+
+            tConversacion += 1
+            pygame.display.flip()
+            reloj.tick(60)
 
 
 

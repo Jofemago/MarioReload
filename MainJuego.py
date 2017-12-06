@@ -6,6 +6,9 @@ from MainMenu import *
 from Tutorial import *
 from Creditos import *
 from Historia import *
+from Nivel1 import *
+from Nivel2 import *
+from EntreNiveles1 import *
 
 def main():
 	pygame.init()
@@ -15,7 +18,11 @@ def main():
 	while not fin and not win:
 		option = Menu(pantalla)
 		if option == 1:
-			win = nivel3(pantalla)
+			elementos = Nivel1(pantalla)
+			if elementos[0] == True:
+				fin = EntreNiveles1(pantalla,elementos[2],1)
+				if not fin:
+					Nivel2(pantalla)
 
 		if option == 2:
 			fin = Tutorial(pantalla)

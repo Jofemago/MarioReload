@@ -42,7 +42,7 @@ def moverFondo(fx, varx):
     #mover el fondo
     return fx+varx
 
-def Nivel1(pantalla):
+def Nivel2(pantalla):
     pygame.display.set_caption("MARIO RELOAD")
 
     jugadores = pygame.sprite.Group()
