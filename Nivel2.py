@@ -109,6 +109,11 @@ def Nivel2(pantalla,vidasMario,bonusMario):
 
     Lakitu = pygame.image.load('Imagenes/Latiku/Latiku.png')
     tConversacion = 0
+    pygame.mixer.music.load('Sonidos/Nivel2/Underground.ogg')
+    pygame.mixer.music.play(-1)
+
+    saltoGrande = pygame.mixer.Sound('Sonidos/Mario/SaltoGrande.wav')
+    sonidoFuego = pygame.mixer.Sound('Sonidos/Mario/Fireball.wav')
 
     while not fin:
         print f_x
@@ -145,6 +150,7 @@ def Nivel2(pantalla,vidasMario,bonusMario):
                         general.add(bola)
                         balasmario.add(bola)
                         mario.disparo = True
+                        sonidoFuego.play()
 
 
 
@@ -152,6 +158,7 @@ def Nivel2(pantalla,vidasMario,bonusMario):
                 if event.key == pygame.K_UP:
                     #mario.gritar()
                     mario.salto()
+                    saltoGrande.play()
                     #mario.var_y = -10
 
             if event.type == pygame.KEYUP:
@@ -307,6 +314,7 @@ def Nivel2(pantalla,vidasMario,bonusMario):
                         e.kill()
 
         if mario.rect.y > ALTO:
+            pygame.mixer.music.stop()
             return [False, mario.vidas,mario.bonus]
 
 
@@ -336,6 +344,7 @@ def Nivel2(pantalla,vidasMario,bonusMario):
             if tConversacion >= 200 and tConversacion < 400:
                 pantalla.blit(conv2,[mario.rect.left,mario.rect.top - mario.rect.height])
             if tConversacion >= 400:
+                pygame.mixer.music.stop()
                 return [True,mario.vidas,mario.bonus]#se retorna que se ganó
 
             tConversacion += 1

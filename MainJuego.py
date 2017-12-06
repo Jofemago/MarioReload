@@ -13,12 +13,15 @@ from EntreNiveles1 import *
 def main():
 	pygame.init()
 	pantalla=pygame.display.set_mode([ANCHO, ALTO])
+	sonidoPerder = pygame.mixer.Sound('Sonidos/Mario/perder.wav')
 	fin = False
 	win = False
 	while not fin and not win:
 		option = Menu(pantalla)
 		if option == 1:
 			elementos = Nivel1(pantalla)
+			if elementos[0] == False:
+				sonidoPerder.play()
 			if elementos[0] == True:
 				fin = EntreNiveles1(pantalla,elementos[2],1)
 				if not fin:

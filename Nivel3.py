@@ -636,4 +636,5 @@ def nivel3(pantalla):
 		pygame.display.flip()
 		clock.tick(30)
 
+	pygame.mixer.music.stop()
 	return win

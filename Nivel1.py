@@ -113,6 +113,13 @@ def Nivel1(pantalla):
     conv2 = pygame.image.load('Imagenes/Dialogos/primerNivel/2.png')
     conv3 = pygame.image.load('Imagenes/Dialogos/primerNivel/3.png')
 
+    pygame.mixer.music.load('Sonidos/Nivel1/SuperMarioBros.ogg')
+    pygame.mixer.music.play(-1)
+
+    saltoGrande = pygame.mixer.Sound('Sonidos/Mario/SaltoGrande.wav')
+    sonidoFuego = pygame.mixer.Sound('Sonidos/Mario/Fireball.wav')
+    #sonidoPerder = pygame.mixer.Sound('Sonidos/Mario/perder.wav')
+
     pausa = False
 
 
@@ -139,9 +146,6 @@ def Nivel1(pantalla):
                     #grandir
                     mario.crecer()
 
-                if event.key == pygame.K_p:
-                    #il va etre petite
-                    mario.enano()
 
                 if event.key == pygame.K_SPACE:
                     #print 'bola de fuego'
@@ -152,12 +156,15 @@ def Nivel1(pantalla):
                         general.add(bola)
                         balasmario.add(bola)
                         mario.disparo = True
+                        sonidoFuego.play()
 
                 if event.key == pygame.K_p:
                     if not pausa:
                         pausa = True
+                        pygame.mixer.music.pause()
                     else:
                         pausa = False
+                        pygame.mixer.music.unpause()
 
 
 
@@ -165,6 +172,7 @@ def Nivel1(pantalla):
                 if event.key == pygame.K_UP:
                     #mario.gritar()
                     mario.salto()
+                    saltoGrande.play()
                     #mario.var_y = -10
 
             if event.type == pygame.KEYUP:
@@ -290,6 +298,8 @@ def Nivel1(pantalla):
                             #mario.salto()
                             mario.var_y = 7
                             mario.morir = True
+                            pygame.mixer.music.stop()
+                            #sonidoPerder.play()
 
                         else :
                             mario.enano()
@@ -320,6 +330,7 @@ def Nivel1(pantalla):
                         e.kill()
 
         if mario.rect.y > ALTO:
+            pygame.mixer.music.stop()
             return [False, mario.vidas,0]
 
 
@@ -354,6 +365,7 @@ def Nivel1(pantalla):
             if tConversacion >= 400 and tConversacion < 600:
                 pantalla.blit(conv3,[ANCHO - 130,90])
             if tConversacion >= 600:
+                pygame.mixer.music.stop()
                 return [True,mario.vidas,mario.bonus]#se retorna que se ganó
 
             tConversacion += 1

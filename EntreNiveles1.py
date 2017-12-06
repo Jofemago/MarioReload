@@ -23,6 +23,8 @@ def EntreNiveles1(pantalla,bonus,nivel):
 	imgT1 = fT.render(t1,1,BLANCO)
 	imgT2 = fT.render(t2,1,BLANCO)
 	imgT3 = fT.render(t3,1,BLANCO)
+	sonidoGanar = pygame.mixer.Sound('Sonidos/Mario/ganar.wav')
+	sonidoGanar.play()
 
 	while not fin:
 
