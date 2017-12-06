@@ -48,9 +48,9 @@ def nivel3(pantalla):
 	mapa = ConfiguracionJson('Jugadores/Mapa/jsonmapas/nivel3.json')
 
 	#se definen las matrices de imágenes para todos los sprites
-	corteMario1 = recortar(imgmariopeque,3,5)
-	corteMario2 = recortar(imgmariogrande,3,5)
-	corteMario3 = recortar(imgmariofuego,3,5)
+	corteMario1 = recortar(imgmariopeque,4,5)
+	corteMario2 = recortar(imgmariogrande,4,5)
+	corteMario3 = recortar(imgmariofuego,4,5)
 	corteLuigi = recortar(imgLuigi,4,4)
 	cortePeach = recortar(imgPeach,4,4)
 	corteBola = recortar(imgbolafuego,4,1)
@@ -177,7 +177,9 @@ def nivel3(pantalla):
 
 
 
-
+	#Imagen de Lakitu
+	rLakitu = 'Imagenes/Latiku/Latiku.png'
+	Lakitu = pygame.image.load(rLakitu)
 
 
 
@@ -470,6 +472,7 @@ def nivel3(pantalla):
 
 
 		pantalla.fill(NEGRO)
+		pantalla.blit(Lakitu,[0,250])
 		#fondos.update()
 		#fondos.draw(pantalla)
 		if not (BD1 or BD2 or BD3 or BD4 or BD5 or BD6 or BDF1 or BDF2 or BDF3 or BDF4 or BDF5 or BDF6):

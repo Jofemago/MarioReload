@@ -193,7 +193,7 @@ class Mario(pygame.sprite.Sprite):
 
         if self.var_sprite <= 0:
             if self.var_x != 0:
-                if self.i < 2 :
+                if self.i < 3 :
 
                     self.i += 1
                 else:
