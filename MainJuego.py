@@ -22,7 +22,11 @@ def main():
 			if elementos[0] == True:
 				fin = EntreNiveles1(pantalla,elementos[2],1)
 				if not fin:
-					Nivel2(pantalla)
+					elementos2 = Nivel2(pantalla,elementos[1],elementos[2])
+					if elementos2[0] == True:
+						fin = EntreNiveles1(pantalla,elementos2[2],2)
+						if not fin:
+							nivel3(pantalla)
 
 		if option == 2:
 			fin = Tutorial(pantalla)

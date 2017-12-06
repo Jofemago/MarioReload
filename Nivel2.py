@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pygame
 import random
 
@@ -42,7 +45,7 @@ def moverFondo(fx, varx):
     #mover el fondo
     return fx+varx
 
-def Nivel2(pantalla):
+def Nivel2(pantalla,vidasMario,bonusMario):
     pygame.display.set_caption("MARIO RELOAD")
 
     jugadores = pygame.sprite.Group()
@@ -60,6 +63,8 @@ def Nivel2(pantalla):
     fondos =  pygame.sprite.Group()
 
     mario = Mario(recortar(mariopeque,4,5),recortar(mariogrande,4,5),recortar(mariofuego,4,5))
+    mario.bonus = bonusMario
+    mario.vidas = vidasMario
     #general.add(mario)
     jugadores.add(mario)
 
@@ -74,7 +79,8 @@ def Nivel2(pantalla):
     reloj = pygame.time.Clock()
     fin  = False
 
-
+    conv1 = pygame.image.load('Imagenes/Dialogos/segundoNivel/1.png')
+    conv2 = pygame.image.load('Imagenes/Dialogos/segundoNivel/2.png')
 
     Escombros = recortar( 'Jugadores/Mapa/imgmapas/escombros2.png',4,1)
 
@@ -99,7 +105,13 @@ def Nivel2(pantalla):
     limitemario = 400
     #para definir el liite que va el fondo, 0 es por un lado y -(ANCHOFONDO- ANCHOPANTALLA) es el limite de la derecha
 
+    conversar = False
+
+    Lakitu = pygame.image.load('Imagenes/Latiku/Latiku.png')
+    tConversacion = 0
+
     while not fin:
+        print f_x
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fin=True
@@ -295,18 +307,39 @@ def Nivel2(pantalla):
                         e.kill()
 
         if mario.rect.y > ALTO:
-            return [False, mario.vidas]
+            return [False, mario.vidas,mario.bonus]
+
+
+        if f_x <= -7480:
+            conversar = True
 
         pantalla.fill(NEGRO)
         #pantalla.blit(fondo,[f_x,0])
-        fondos.update()
-        fondos.draw(pantalla)
-        general.update()
-        jugadores.update()
-        general.draw(pantalla)
-        jugadores.draw(pantalla)
-        EnemigosA.draw(pantalla)
-        balasmario.draw(pantalla)
+        if not conversar:
+            fondos.update()
+            fondos.draw(pantalla)
+            general.update()
+            jugadores.update()
+            general.draw(pantalla)
+            jugadores.draw(pantalla)
+            EnemigosA.draw(pantalla)
+            balasmario.draw(pantalla)
+
+        if conversar:
+            fondos.draw(pantalla)
+            general.draw(pantalla)
+            jugadores.draw(pantalla)
+            EnemigosA.draw(pantalla)
+            pantalla.blit(Lakitu,[ANCHO - 80,200])
+            if tConversacion >= 0 and tConversacion < 200:
+                pantalla.blit(conv1,[ANCHO - 130,90])
+            if tConversacion >= 200 and tConversacion < 400:
+                pantalla.blit(conv2,[mario.rect.left,mario.rect.top - mario.rect.height])
+            if tConversacion >= 400:
+                return [True,mario.vidas,mario.bonus]#se retorna que se ganó
+
+            tConversacion += 1
+
         pygame.display.flip()
         reloj.tick(60)
 
@@ -317,5 +350,5 @@ if __name__ =='__main__':
     pygame.init()
     pantalla=pygame.display.set_mode([ANCHO, ALTO])
     pygame.display.flip()
-    l = Nivel1(pantalla)
+    l = Nivel2(pantalla,10,30)
     print l

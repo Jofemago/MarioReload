@@ -113,6 +113,8 @@ def Nivel1(pantalla):
     conv2 = pygame.image.load('Imagenes/Dialogos/primerNivel/2.png')
     conv3 = pygame.image.load('Imagenes/Dialogos/primerNivel/3.png')
 
+    pausa = False
+
 
     while not fin:
 
@@ -150,6 +152,12 @@ def Nivel1(pantalla):
                         general.add(bola)
                         balasmario.add(bola)
                         mario.disparo = True
+
+                if event.key == pygame.K_p:
+                    if not pausa:
+                        pausa = True
+                    else:
+                        pausa = False
 
 
 
@@ -319,7 +327,7 @@ def Nivel1(pantalla):
             conversacion = True
 
 
-        if not conversacion:
+        if not conversacion and not pausa:
             pantalla.fill(NEGRO)
             #pantalla.blit(fondo,[f_x,0])
             fondos.update()
@@ -330,8 +338,7 @@ def Nivel1(pantalla):
             jugadores.draw(pantalla)
             EnemigosA.draw(pantalla)
             balasmario.draw(pantalla)
-            pygame.display.flip()
-            reloj.tick(60)
+
 
         if conversacion:
             pantalla.fill(NEGRO)
@@ -350,15 +357,18 @@ def Nivel1(pantalla):
                 return [True,mario.vidas,mario.bonus]#se retorna que se ganó
 
             tConversacion += 1
-            pygame.display.flip()
-            reloj.tick(60)
+
+        if pausa:
+            pantalla.fill(NEGRO)
+            fondos.draw(pantalla)
+            general.draw(pantalla)
+            jugadores.draw(pantalla)
+            EnemigosA.draw(pantalla)            
+
+
+        pygame.display.flip()
+        reloj.tick(60)
 
 
 
 
-if __name__ =='__main__':
-    pygame.init()
-    pantalla=pygame.display.set_mode([ANCHO, ALTO])
-    pygame.display.flip()
-    l = Nivel1(pantalla)
-    print l

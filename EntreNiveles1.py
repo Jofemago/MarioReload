@@ -35,8 +35,8 @@ def EntreNiveles1(pantalla,bonus,nivel):
 			if event.type == pygame.KEYDOWN:
 				return False
 
-
-		pantalla.blit(background,[0,-250])
+		if nivel == 1:
+			pantalla.blit(background,[0,-250])
 		pantalla.blit(imgTitle,[CENTRO[0] - 200,10])
 		pantalla.blit(imgT1,[CENTRO[0] - 200,100])
 		pantalla.blit(imgT2,[CENTRO[0] - 200,200])
