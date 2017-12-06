@@ -194,6 +194,17 @@ def nivel3(pantalla):
 	win = False #Al final es la variable que se va a retornar
 
 
+	#CONFIGURACIÓN DE SONIDOS
+	rutaSonidos = 'Sonidos/Nivel3'
+	pygame.mixer.music.load(rutaSonidos + '/carminaBurana.ogg')
+
+	saltoGrande = pygame.mixer.Sound('Sonidos/Mario/SaltoGrande.wav')
+	sonidoFuego = pygame.mixer.Sound('Sonidos/Mario/Fireball.wav')
+
+	pausa = False #variable de Pausa
+
+
+
 	while not fin:
 
 		#control de diálogos
@@ -252,6 +263,9 @@ def nivel3(pantalla):
 			BD4 = False
 			BD5 = False
 			BD6 = False
+
+		if tDialogo == 580:
+			pygame.mixer.music.play(-1)
 
 		tDialogo += 1
 
@@ -367,15 +381,29 @@ def nivel3(pantalla):
 
 				if event.key == pygame.K_SPACE and not marioDead and not win:
 					if mario.estado == 3 and not mario.disparo:
+
 						bola = FireBall(corteBola,suelos,mario.dir)
 						bola.rect.center = mario.rect.center
 						general.add(bola)
 						bolasMario.add(bola)
 						mario.disparo = True
+						sonidoFuego.play()
+
 
 
 				if event.key == pygame.K_UP and not marioDead:
+					saltoGrande.play()
 					mario.salto()
+
+
+				if event.key == pygame.K_p:
+					if not pausa:
+						pausa = True
+						pygame.mixer.music.pause()
+
+					else:
+						pausa = False
+						pygame.mixer.music.unpause()
 
 
 
@@ -475,7 +503,7 @@ def nivel3(pantalla):
 		pantalla.blit(Lakitu,[0,250])
 		#fondos.update()
 		#fondos.draw(pantalla)
-		if not (BD1 or BD2 or BD3 or BD4 or BD5 or BD6 or BDF1 or BDF2 or BDF3 or BDF4 or BDF5 or BDF6):
+		if not (BD1 or BD2 or BD3 or BD4 or BD5 or BD6 or BDF1 or BDF2 or BDF3 or BDF4 or BDF5 or BDF6 or pausa):
 			general.update()
 			if mario.rect.top <= ALTO:
 				gMario.update()
@@ -597,6 +625,12 @@ def nivel3(pantalla):
 			gLuigi.draw(pantalla)
 			gPeach.draw(pantalla)
 			pantalla.blit(DF6,[0,150])
+
+		if pausa:
+			general.draw(pantalla)
+			gMario.draw(pantalla)
+			gLuigi.draw(pantalla)
+			gPeach.draw(pantalla)
 
 
 		pygame.display.flip()
