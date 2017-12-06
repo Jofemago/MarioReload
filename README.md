@@ -23,3 +23,5 @@ NIveles de dificultad diferente.
 -Tutorial
 
 5. Video en Youtube (gameplay)
+
+# NOTA: El archivo a ejecutar es MainJuego.py
