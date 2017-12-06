@@ -99,6 +99,36 @@ class MakeMapa:
                     #self.Bonus.add(m)
                     self.general.add(m)
 
+                if self.mapa[i][j] == 9 :
+                    m = suelo(self.sabana[8][0])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 11 :
+                    m = suelo(self.sabana[0][1])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 12 :
+                    m = suelo(self.sabana[1][1])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 13 :
+                    m = suelo(self.sabana[2][1])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
+                if self.mapa[i][j] == 14:
+                    m = suelo(self.sabana[3][1])
+                    m.setpos(j*40 , i*40)
+                    self.suelos.add(m)
+                    self.general.add(m)
+
                 #TERCER NIVEL
                 #Suelo
                 if self.mapa[i][j] == 91:
