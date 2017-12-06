@@ -40,6 +40,14 @@ class MakeEnemys:
                     self.EnemigosA.add(m)
                     self.general.add(m)
 
+                if self.mapa[i][j] == 62:
+                    #print 'Goomba creado'
+                    m = Goomba(j*40 , i*40,'Jugadores/Enemigos/imgenemigos/boo.png',self.suelos)
+
+                    self.EnemigosA.add(m)
+                    self.general.add(m)
+
+
                 if self.mapa[i][j] == 15: #planta Carnivora
                     m = Carnivora(j*40 , i*40,'Jugadores/Enemigos/imgenemigos/carnivora.png')
 
